@@ -1,0 +1,25 @@
+{
+    "Function Template": {
+        "prefix": "fn",
+        "body": [
+            "fn ${1:name}(${2:params}) {",
+            "\t$0",
+            "}"
+        ],
+        "description": "Create a new function"
+    },
+    "Print Statement": {
+        "prefix": "print",
+        "body": [
+            "print($1)$0"
+        ],
+        "description": "Log to console"
+    },
+    "Let Variable": {
+        "prefix": "let",
+        "body": [
+            "let ${1:variable} = ${2:value};"
+        ],
+        "description": "Declare a variable"
+    }
+}

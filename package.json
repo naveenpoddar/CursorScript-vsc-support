@@ -1,0 +1,51 @@
+{
+  "name": "cursor",
+  "displayName": "CursorScript",
+  "description": "Official support for the .cursor language.",
+  "version": "0.0.2",
+  "icon": "icon.png",
+  "publisher": "naveenpoddar",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/naveenpoddar/cursorscript"
+  },
+  "engines": {
+    "vscode": "^1.109.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "snippets": [
+      {
+        "language": "cursor",
+        "path": "./snippets/cursor-snippets.json"
+      }
+    ],
+    "languages": [
+      {
+        "id": "cursor",
+        "aliases": [
+          "CursorScript",
+          "cursor"
+        ],
+        "extensions": [
+          ".cursor"
+        ],
+        "icon": {
+          "light": "./icons/cursorscript-icon-circled.png",
+          "dark": "./icons/cursorscript-icon-circled.png"
+        },
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "cursor",
+        "scopeName": "source.cursor",
+        "path": "./syntaxes/cursor.tmLanguage.json"
+      }
+    ]
+  },
+  "license": "MIT"
+}
