@@ -2,20 +2,37 @@
   "name": "cursor",
   "displayName": "CursorScript",
   "description": "Official support for the .cursor language.",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "icon": "icon.png",
+  "main": "extension.js",
   "publisher": "naveenpoddar",
   "repository": {
     "type": "git",
     "url": "https://github.com/naveenpoddar/cursorscript"
   },
   "engines": {
-    "vscode": "^1.109.0"
+    "vscode": "^1.100.0"
   },
   "categories": [
     "Programming Languages"
   ],
   "contributes": {
+    "commands": [
+      {
+        "command": "cursorScript.runFile",
+        "title": "Run Cursor Script",
+        "icon": "$(play)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "cursorScript.runFile",
+          "group": "navigation",
+          "when": "resourceExtname == .cursor"
+        }
+      ]
+    },
     "snippets": [
       {
         "language": "cursor",
@@ -47,5 +64,15 @@
       }
     ]
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.13.5",
+    "child_process": "^1.0.2",
+    "fs": "^0.0.1-security",
+    "os": "^0.1.2",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "vscode": "^1.1.37"
+  }
 }
