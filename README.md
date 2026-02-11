@@ -1,7 +1,7 @@
 # CursorScript VS Code Support
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Version](https://img.shields.io/badge/version-0.0.1-green.svg)
+![Version](https://img.shields.io/badge/version-0.0.5-green.svg)
 
 Official Visual Studio Code support for **CursorScript** (`.cursor`). This extension provides syntax highlighting, code snippets, and language configuration to enhance your development experience with CursorScript.
 
