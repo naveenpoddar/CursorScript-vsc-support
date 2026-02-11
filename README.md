@@ -1,71 +1,81 @@
-# CursorScript VS Code Support
+# CursorScript VS Code Support 💎
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Version](https://img.shields.io/badge/version-0.0.5-green.svg)
+Official Visual Studio Code extension for **CursorScript** (`.cursor`). This extension provides high-fidelity syntax highlighting, advanced code snippets, and language configuration for the CursorScript ecosystem.
 
-Official Visual Studio Code support for **CursorScript** (`.cursor`). This extension provides syntax highlighting, code snippets, and language configuration to enhance your development experience with CursorScript.
+![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)
+![Type](https://img.shields.io/badge/category-Syntax_Highlighting-orange.svg)
 
-## Features
+## Features ✨
 
-- **Syntax Highlighting**: Comprehensive coloring for keywords, variables, functions, and data structures.
-- **Code Snippets**: Quickly generate common code blocks like functions (`fn`), log statements (`print`), and control flow structures.
-- **Bracket Matching**: Automatic matching of braces `{}`, parentheses `()`, and brackets `[]`.
-- **Comment Toggling**: Support for line comments.
+- **🌈 High-Fidelity Highlighting**: Deep support for keywords, logical operators (`&&`, `||`, `!`), object properties, and numeric/string literals.
+- **⚡ Supercharged Snippets**: Instant templates for `fn`, `if`, `ifelse`, `while`, and common `WindowLib` patterns.
+- **📦 Data Structure Aware**: Specific highlighting for nested Objects `{}` and dynamic Arrays `[]`.
+- **🛠️ Game-Dev Ready**: Pre-configured for hardware-accelerated development using the `Window` and `Math` libraries.
+- **💬 Pro Commenting**: Full support for line commenting (`//`) and bracket matching.
 
-## Supported Syntax
+## Syntax Showcase 📝
 
-CursorScript supports modern programming constructs including:
+The extension is optimized for modern CursorScript constructs:
 
-- **Variables**: `let` and `const` declarations.
-- **Functions**: First-class functions with `fn` keyword, supporting closures and nested definitions.
-- **Objects**: JSON-like object literals with nested structures.
-- **Built-ins**: Native support for functions like `print()` and `time()`.
-
-## Usage Example
-
-Create a file ending in `.cursor` and start coding! Here is a sample of what you can do:
+### 1. Variables & Semicolons
 
 ```cursor
-// Variable declarations
-let foo = 50 / 2;
+let score = 0;          // Mutable - Requires semicolon
+const VERSION = "1.0";  // Constant - Requires semicolon
+```
 
-// Object literals
-let person = {
-    age: 30,
-    isMonster: true,
-    address: {
-        pincode: 123456,
-        countryCode: 12
-    }
-};
+### 2. Logical Gates & Conditionals
 
-// Built-in functions
-print(foo, 45, time())
+```cursor
+if (player.alive && score > 100) {
+    print("Level Up!")
+}
+```
 
-// Functions and Closures
-fn makeAdder(offset) {
-    fn add(x, y) {
-        x + y + offset
+### 3. Dynamic Arrays
+
+```cursor
+let items = ["Sword", "Shield"];
+push(items, "Potion");
+print(len(items)); // 3
+```
+
+### 4. While Loops
+
+```cursor
+let i = 0;
+while (i < 5) {
+    print("Iteration: " + str(i))
+    i = i + 1
+}
+```
+
+### 5. Native Game Loop (WindowLib)
+
+```cursor
+Window.create(800, 600, "My Game")
+
+fn tick() {
+    Window.clear("black")
+    if (Window.getMouseButton()) {
+        print("Clicked at: ", Window.getMouseX())
     }
 }
 
-const adder = makeAdder(10);
-const result = adder(10, 4);
-
-print(result)
+Window.onUpdate(tick)
 ```
 
-## Installation
+## Installation 📦
 
 1. Open **Visual Studio Code**.
-2. Go to the **Extensions** view (`Ctrl+Shift+X` or `Cmd+Shift+X`).
-3. Search for **CursorScript**.
-4. Click **Install**.
+2. Go to the **Extensions** view (`Ctrl+Shift+X`).
+3. Click **Install from VSIX...** or search for **CursorScript** in the marketplace.
+4. Restart VS Code to activate specific highlighting for `.cursor` files.
 
-## Contributing
+## Contributing 🤝
 
-We welcome contributions! If you find a bug or want to request a feature, please visit our [GitHub Repository](https://github.com/naveenpoddar/cursorscript).
+Developed by the CursorScript core team. Join us on [GitHub](https://github.com/naveenpoddar/cursorscript) to help build the future of rapid game scripting!
 
 ## License
 
-This project is licensed under the MIT License.
+MIT

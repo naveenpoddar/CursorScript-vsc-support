@@ -11,7 +11,7 @@
     "Print Statement": {
         "prefix": "print",
         "body": [
-            "print($1)$0"
+            "print($1);$0"
         ],
         "description": "Log to console"
     },
@@ -20,6 +20,42 @@
         "body": [
             "let ${1:variable} = ${2:value};"
         ],
-        "description": "Declare a variable"
+        "description": "Declare a mutable variable"
+    },
+    "Const Variable": {
+        "prefix": "const",
+        "body": [
+            "const ${1:variable} = ${2:value};"
+        ],
+        "description": "Declare a constant variable"
+    },
+    "If Statement": {
+        "prefix": "if",
+        "body": [
+            "if (${1:condition}) {",
+            "\t$0",
+            "}"
+        ],
+        "description": "If condition"
+    },
+    "If Else Statement": {
+        "prefix": "ifelse",
+        "body": [
+            "if (${1:condition}) {",
+            "\t$2",
+            "} else {",
+            "\t$0",
+            "}"
+        ],
+        "description": "If-else condition"
+    },
+    "While Loop": {
+        "prefix": "while",
+        "body": [
+            "while (${1:condition}) {",
+            "\t$0",
+            "}"
+        ],
+        "description": "While loop"
     }
 }
