@@ -2,7 +2,7 @@
   "name": "cursorscript",
   "displayName": "CursorScript",
   "description": "Official support for the .cursor language.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "icon": "icon.png",
   "main": "extension.js",
   "publisher": "naveenpoddar",
