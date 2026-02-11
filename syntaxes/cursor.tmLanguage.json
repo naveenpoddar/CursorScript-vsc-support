@@ -3,6 +3,27 @@
 	"name": "Cursor",
 	"patterns": [
 		{
+			"name": "comment.line.double-slash.cursor",
+			"begin": "//",
+			"end": "$",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.comment.cursor"
+				}
+			}
+		},
+		{
+			"name": "string.quoted.double.cursor",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.cursor",
+					"match": "\\\\."
+				}
+			]
+		},
+		{
 			"name": "keyword.control.cursor",
 			"match": "\\b(fn|let|const|return|if|else|while|for)\\b"
 		},
