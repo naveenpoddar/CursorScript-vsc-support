@@ -4,11 +4,59 @@ const fs = require("fs");
 const path = require("path");
 const { chmodSync } = require("fs");
 const { execSync } = require("child_process");
+const { LanguageClient, TransportKind } = require("vscode-languageclient/node");
+
+let client;
 
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
+  // --- LSP Client Setup ---
+  const serverModule = context.asAbsolutePath(path.join("dist", "server.js"));
+
+  // The debug options for the server
+  // --inspect=6009: runs the server in Node's Inspector mode so VS Code can attach to the server for debugging
+  const debugOptions = { execArgv: ["--nolazy", "--inspect=6009"] };
+
+  // If the extension is launched in debug mode then the debug server options are used
+  // Otherwise the run options are used
+  const serverOptions = {
+    run: { module: serverModule, transport: TransportKind.ipc },
+    debug: {
+      module: serverModule,
+      transport: TransportKind.ipc,
+      options: debugOptions,
+    },
+  };
+
+  // Options to control the language client
+  const clientOptions = {
+    // Register the server for plain text documents
+    documentSelector: [{ scheme: "file", language: "cursor" }],
+    synchronize: {
+      // Notify the server about file changes to '.cursor' files
+      fileEvents: vscode.workspace.createFileSystemWatcher("**/.cursor"),
+    },
+    // Keep it alive and show errors
+    diagnosticCollectionName: "CursorScript",
+  };
+
+  // Create the language client and start the client.
+  client = new LanguageClient(
+    "cursorScriptLanguageServer",
+    "CursorScript Language Server",
+    serverOptions,
+    clientOptions,
+  );
+
+  // Start the client. This will also launch the server
+  client.start().catch((err) => {
+    console.error("LSP Start Failed:", err);
+  });
+
+  // --- End LSP Client Setup ---
+
   const storagePath = context.globalStorageUri.fsPath;
   if (!fs.existsSync(storagePath)) {
     fs.mkdirSync(storagePath, { recursive: true });
@@ -281,7 +329,12 @@ function downloadChunk(url, dest, start, end, onProgress) {
   });
 }
 
-function deactivate() {}
+function deactivate() {
+  if (!client) {
+    return undefined;
+  }
+  return client.stop();
+}
 
 function findFileRecursively(dir, fileName) {
   if (!fs.existsSync(dir)) return null;

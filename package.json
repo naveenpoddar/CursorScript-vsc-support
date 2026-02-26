@@ -1,10 +1,10 @@
 {
   "name": "cursorscript",
-  "displayName": "CursorScript",
-  "description": "Official support for the .cursor language.",
-  "version": "0.0.7",
+  "displayName": "CursorScript - Full IDE Support",
+  "description": "Professional Language Server for CursorScript with IntelliSense, Formatting, Go to Definition, and Diagnostics.",
+  "version": "1.0.0",
   "icon": "icon.png",
-  "main": "extension.js",
+  "main": "./dist/extension.js",
   "publisher": "naveenpoddar",
   "repository": {
     "type": "git",
@@ -14,8 +14,21 @@
     "vscode": "^1.75.0"
   },
   "categories": [
-    "Programming Languages"
+    "Programming Languages",
+    "Formatters",
+    "Linters"
   ],
+  "activationEvents": [
+    "onLanguage:cursor",
+    "onFileSystem:*.cursor",
+    "workspaceContains:**/*.cursor",
+    "onStartupFinished"
+  ],
+  "scripts": {
+    "bundle": "esbuild extension.js --bundle --outfile=dist/extension.js --external:vscode --platform=node && esbuild server.ts --bundle --outfile=dist/server.js --external:vscode --platform=node",
+    "sync": "node extract_libraries.js && npm run bundle",
+    "watch": "esbuild extension.js --bundle --outfile=dist/extension.js --external:vscode --platform=node --watch & esbuild server.ts --bundle --outfile=dist/server.js --external:vscode --platform=node --watch"
+  },
   "contributes": {
     "commands": [
       {
@@ -70,9 +83,14 @@
     "child_process": "^1.0.2",
     "fs": "^0.0.1-security",
     "os": "^0.1.2",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "vscode-languageclient": "^9.0.1",
+    "vscode-languageserver": "^9.0.1",
+    "vscode-languageserver-textdocument": "^1.0.12"
   },
   "devDependencies": {
+    "@types/node": "^25.3.1",
+    "esbuild": "^0.27.3",
     "vscode": "^1.1.37"
   }
 }

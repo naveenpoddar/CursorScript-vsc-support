@@ -1,80 +1,106 @@
 # CursorScript VS Code Support 💎
 
-Official Visual Studio Code extension for **CursorScript** (`.cursor`). This extension provides high-fidelity syntax highlighting, advanced code snippets, and language configuration for the CursorScript ecosystem.
+The ultimate IDE experience for **CursorScript** (`.cursor`). This extension transforms Visual Studio Code into a high-performance development environment with a custom Language Server, intelligent autocompletion, and professional formatting.
 
-![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)
-![Type](https://img.shields.io/badge/category-Syntax_Highlighting-orange.svg)
+![Version](https://img.shields.io/badge/version-0.0.8-blue.svg)
+![LSP](https://img.shields.io/badge/LSP-Enabled-green.svg)
+![Formatter](https://img.shields.io/badge/Formatter-Prettier--Style-orange.svg)
 
-## Features ✨
+---
 
-- **🌈 High-Fidelity Highlighting**: Deep support for keywords, logical operators (`&&`, `||`, `!`), object properties, and numeric/string literals.
-- **⚡ Supercharged Snippets**: Instant templates for `fn`, `if`, `ifelse`, `while`, and common `WindowLib` patterns.
-- **📦 Data Structure Aware**: Specific highlighting for nested Objects `{}` and dynamic Arrays `[]`.
-- **🛠️ Game-Dev Ready**: Pre-configured for hardware-accelerated development using the `Window` and `Math` libraries.
-- **💬 Pro Commenting**: Full support for line commenting (`//`) and bracket matching.
+## 🚀 Pro Features
 
-## Syntax Showcase 📝
+### 🧠 Advanced IntelliSense & Autocomplete
 
-The extension is optimized for modern CursorScript constructs:
+Powered by a custom-built **Language Server Protocol (LSP)**, CursorScript provides real-time intelligent suggestions:
 
-### 1. Variables & Semicolons
+- **Global & Library Symbols**: Instant access to `Math`, `Window`, `Engine3D`, and more.
+- **Snippet Support**: Type `fn`, `lambda`, `if`, or `main` and hit `Enter` for instant code templates with tab-indices.
+- **Variable Suggestions**: Deep scan of local and global scopes, including nested function variables and parameters.
+
+### 🔍 Scientific Diagnostics & Hovers
+
+- **Live Syntax Checking**: Get instant red squiggles for errors with meaningful messages and precise line/column locations.
+- **Hover Documentation**: Hover over any variable, function, or library member to see its signature, type, and documentation.
+- **Signature Help**: Never forget arguments again! Automatic popups show parameter lists while you type function calls.
+
+### 🎯 Navigation & Outline
+
+- **Go to Definition (`F12`)**: Right-click any variable or function and jump straight to its declaration.
+- **Document Symbols (`Ctrl+Shift+O`)**: A structured outline view of your script, including all variables, constants, and functions.
+
+### 💎 Automatic Type Inference
+
+The IDE intelligently detects variable types from assignments. Whether it's a `number`, `string`, `array`, `object`, or even a `fn()`, the IDE knows and shows it to you.
+
+### 🧼 Prettier-Style Formatter
+
+Enforce a professional codebase with one keystroke (`Shift + Alt + F`):
+
+- **Auto-Formatting**: Aligns indentation (4 spaces) and cleans up messy code.
+- **Semicolon Enforcement**: Automatically appends semicolons to statements for a clean, consistent Prettier/TypeScript look.
+- **Block Expansion**: Automatically expands single-line blocks into clean, multi-line structures.
+- **Optional Brackets**: Smart handling of modern semicolon-optional syntax for block declarations.
+
+---
+
+## 📝 Syntax Showcase
+
+The extension is optimized for modern, high-speed scripting constructs:
+
+### 1. Variables & Type Inference
 
 ```cursor
-let score = 0;          // Mutable - Requires semicolon
-const VERSION = "1.0";  // Constant - Requires semicolon
+let score = 100;           // (variable: number)
+const name = "Naveen";    // (constant: string)
+let list = [1, 2, 3];     // (variable: array)
 ```
 
-### 2. Logical Gates & Conditionals
+### 2. Lambda Functions
 
 ```cursor
-if (player.alive && score > 100) {
-    print("Level Up!")
+let multiply = (a, b) -> {
+    a * b
+};
+print(multiply(5, 10));
+```
+
+### 3. Native Engine Libraries
+
+```cursor
+import { Window } from "WindowLib";
+
+fn main() {
+    Window.create(1280, 720, "TradeForge");
+    Window.clear("black");
 }
 ```
 
-### 3. Dynamic Arrays
+### 4. Advanced Logical Flow
 
 ```cursor
-let items = ["Sword", "Shield"];
-push(items, "Potion");
-print(len(items)); // 3
-```
-
-### 4. While Loops
-
-```cursor
-let i = 0;
-while (i < 5) {
-    print("Iteration: " + str(i))
-    i = i + 1
+if (score > 100 && player.alive) {
+    print("Victory!");
+} else {
+    print("Game Over");
 }
 ```
 
-### 5. Native Game Loop (WindowLib)
+---
 
-```cursor
-Window.create(800, 600, "My Game")
-
-fn tick() {
-    Window.clear("black")
-    if (Window.getMouseButton()) {
-        print("Clicked at: ", Window.getMouseX())
-    }
-}
-
-Window.onUpdate(tick)
-```
-
-## Installation 📦
+## 📦 Installation
 
 1. Open **Visual Studio Code**.
 2. Go to the **Extensions** view (`Ctrl+Shift+X`).
-3. Click **Install from VSIX...** or search for **CursorScript** in the marketplace.
-4. Restart VS Code to activate specific highlighting for `.cursor` files.
+3. Search for **CursorScript** or install from our official VSIX package.
+4. Open any `.cursor` file to activate the **CursorScript Language Server**.
 
-## Contributing 🤝
+## 🤝 Community & Support
 
-Developed by the CursorScript core team. Join us on [GitHub](https://github.com/naveenpoddar/cursorscript) to help build the future of rapid game scripting!
+Developed with ❤️ by the **CursorScript Core Team**.
+Building the future of rapid application and game development.
+
+[GitHub Repository](https://github.com/naveenpoddar/cursorscript) | [Documentation](https://cursorscript.dev)
 
 ## License
 
