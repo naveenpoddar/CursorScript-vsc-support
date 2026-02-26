@@ -10623,8 +10623,8 @@ connection.onDocumentFormatting(
       if (!isBlockStart && !isBlockEnd && !isControlFlow && !isFunction && !isComment && !isProperty && !endsWithComma && !line.endsWith(";")) {
         line += ";";
       }
-      let formattedLine = " ".repeat(indentLevel * indentSize) + line;
-      formattedLine = formattedLine.replace(/\s*=\s*/g, " = ").replace(/\s*,\s*/g, ", ").replace(/\s*:\s*/g, ": ").replace(/\)\s*\{/g, ") {").replace(/\b(if|while|fn|import)\s?\(/g, "$1 (");
+      line = line.replace(/\s*(==|!=|<=|>=|=)\s*/g, " $1 ").replace(/\s*,\s*/g, ", ").replace(/\s*:\s*/g, ": ").replace(/\)\s*\{/g, ") {").replace(/\b(if|while|fn|import)\s?\(/g, "$1 (").trim();
+      const formattedLine = " ".repeat(indentLevel * indentSize) + line;
       formattedLines.push(formattedLine);
       if (line.endsWith("{") || line.endsWith("[")) {
         indentLevel++;

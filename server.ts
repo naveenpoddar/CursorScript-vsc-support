@@ -576,17 +576,17 @@ connection.onDocumentFormatting(
         line += ";";
       }
 
-      // Indentation
-      let formattedLine = " ".repeat(indentLevel * indentSize) + line;
-
       // Polish
-      formattedLine = formattedLine
-        .replace(/\s*=\s*/g, " = ")
+      line = line
+        .replace(/\s*(==|!=|<=|>=|=)\s*/g, " $1 ")
         .replace(/\s*,\s*/g, ", ")
         .replace(/\s*:\s*/g, ": ")
         .replace(/\)\s*\{/g, ") {")
-        .replace(/\b(if|while|fn|import)\s?\(/g, "$1 (");
+        .replace(/\b(if|while|fn|import)\s?\(/g, "$1 (")
+        .trim();
 
+      // Indentation
+      const formattedLine = " ".repeat(indentLevel * indentSize) + line;
       formattedLines.push(formattedLine);
 
       // Increase indent for next line if this line opens a block
