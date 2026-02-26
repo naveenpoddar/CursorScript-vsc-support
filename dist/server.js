@@ -10608,6 +10608,7 @@ connection.onDocumentFormatting(
     });
     text = text.replace(/\{\s*([^\s}])/g, "{\n$1");
     text = text.replace(/([^\s{])\s*\}/g, "$1\n}");
+    const blockStack = [];
     const lines = text.split(/\r?\n/);
     const formattedLines = [];
     let indentLevel = 0;
@@ -10622,24 +10623,32 @@ connection.onDocumentFormatting(
       }
       const commentMatch = line.match(/__CURSOR_COM_\d+__$/);
       let effectiveLine = commentMatch ? line.slice(0, commentMatch.index).trim() : line;
-      if (effectiveLine.startsWith("}") || effectiveLine.startsWith("]")) {
+      if (effectiveLine.startsWith("}") || effectiveLine.startsWith("]") || effectiveLine.startsWith(")")) {
+        blockStack.pop();
         indentLevel = Math.max(0, indentLevel - 1);
       }
-      const isBlockStart = effectiveLine.endsWith("{") || effectiveLine.endsWith("[");
-      const isBlockEnd = effectiveLine.startsWith("}") || effectiveLine.startsWith("]") || effectiveLine.endsWith("}");
+      const isBlockStart = effectiveLine.endsWith("{") || effectiveLine.endsWith("[") || effectiveLine.endsWith("(");
+      const isBlockEnd = effectiveLine.startsWith("}") || effectiveLine.startsWith("]") || effectiveLine.startsWith(")") || effectiveLine.endsWith("}");
       const isControlFlow = effectiveLine.startsWith("if") || effectiveLine.startsWith("while") || effectiveLine.startsWith("else");
       const isFunction = effectiveLine.startsWith("fn ");
-      const isProperty = effectiveLine.includes(":") && !effectiveLine.startsWith("import");
-      const endsWithComma = effectiveLine.endsWith(",");
+      const isProperty = effectiveLine.includes(":") && !effectiveLine.startsWith("import") && !effectiveLine.startsWith("export");
       const isCommentOnly = effectiveLine.length === 0 && !!commentMatch;
-      if (!isBlockStart && !isBlockEnd && !isControlFlow && !isFunction && !isCommentOnly && !isProperty && !endsWithComma && !effectiveLine.endsWith(";") && effectiveLine.length > 0) {
+      const endsWithContinuation = effectiveLine.endsWith(",") || effectiveLine.endsWith(".") || /[+\-*/%&|^=<>!]$/.test(effectiveLine);
+      const startsWithContinuation = effectiveLine.startsWith(".") || effectiveLine.startsWith(",") || /^[+\-*/%&|^=<>!]/.test(effectiveLine);
+      const nextLineRaw = i < lines.length - 1 ? lines[i + 1].trim() : "";
+      const nextLineEffective = nextLineRaw.replace(/__CURSOR_COM_\d+__$/, "").trim();
+      const nextLineStartsContinuation = nextLineEffective.startsWith("(") || nextLineEffective.startsWith("[") || nextLineEffective.startsWith(".") || /^[+\-*/%&|^=<>!]/.test(nextLineEffective);
+      const currentBlock = blockStack[blockStack.length - 1];
+      const inSemicolonFreeContext = currentBlock === "(" || currentBlock === "[";
+      if (!isBlockStart && !isBlockEnd && !isControlFlow && !isFunction && !isCommentOnly && !isProperty && !endsWithContinuation && !startsWithContinuation && !nextLineStartsContinuation && !inSemicolonFreeContext && !effectiveLine.endsWith(";") && effectiveLine.length > 0) {
         effectiveLine += ";";
       }
       effectiveLine = effectiveLine.replace(/\s*(==|!=|<=|>=|=)\s*/g, " $1 ").replace(/\s*,\s*/g, ", ").replace(/\s*:\s*/g, ": ").replace(/\)\s*\{/g, ") {").replace(/\b(if|while|fn|import)\s?\(/g, "$1 (").trim();
       line = effectiveLine + (commentMatch ? (effectiveLine.length > 0 ? " " : "") + commentMatch[0].trim() : "");
       const formattedLine = " ".repeat(indentLevel * indentSize) + line;
       formattedLines.push(formattedLine);
-      if (effectiveLine.endsWith("{") || effectiveLine.endsWith("[")) {
+      if (effectiveLine.endsWith("{") || effectiveLine.endsWith("[") || effectiveLine.endsWith("(")) {
+        blockStack.push(effectiveLine.slice(-1));
         indentLevel++;
       }
     }

@@ -542,6 +542,7 @@ connection.onDocumentFormatting(
     // Add newline before '}' if preceded by non-whitespace (excluding '{')
     text = text.replace(/([^\s{])\s*\}/g, "$1\n}");
 
+    const blockStack: string[] = [];
     const lines = text.split(/\r?\n/);
     const formattedLines: string[] = [];
     let indentLevel = 0;
@@ -567,26 +568,62 @@ connection.onDocumentFormatting(
         : line;
 
       // De-indent before constructing the line if it starts with a closing brace
-      if (effectiveLine.startsWith("}") || effectiveLine.startsWith("]")) {
+      if (
+        effectiveLine.startsWith("}") ||
+        effectiveLine.startsWith("]") ||
+        effectiveLine.startsWith(")")
+      ) {
+        blockStack.pop();
         indentLevel = Math.max(0, indentLevel - 1);
       }
 
-      // Enforce Semicolons on statements that aren't blocks
+      // Enforce Semicolons on statements that aren't blocks or continuations
       const isBlockStart =
-        effectiveLine.endsWith("{") || effectiveLine.endsWith("[");
+        effectiveLine.endsWith("{") ||
+        effectiveLine.endsWith("[") ||
+        effectiveLine.endsWith("(");
       const isBlockEnd =
         effectiveLine.startsWith("}") ||
         effectiveLine.startsWith("]") ||
+        effectiveLine.startsWith(")") ||
         effectiveLine.endsWith("}");
+
       const isControlFlow =
         effectiveLine.startsWith("if") ||
         effectiveLine.startsWith("while") ||
         effectiveLine.startsWith("else");
       const isFunction = effectiveLine.startsWith("fn ");
       const isProperty =
-        effectiveLine.includes(":") && !effectiveLine.startsWith("import");
-      const endsWithComma = effectiveLine.endsWith(",");
+        effectiveLine.includes(":") &&
+        !effectiveLine.startsWith("import") &&
+        !effectiveLine.startsWith("export");
       const isCommentOnly = effectiveLine.length === 0 && !!commentMatch;
+
+      // Continuation checks
+      const endsWithContinuation =
+        effectiveLine.endsWith(",") ||
+        effectiveLine.endsWith(".") ||
+        /[+\-*/%&|^=<>!]$/.test(effectiveLine);
+      const startsWithContinuation =
+        effectiveLine.startsWith(".") ||
+        effectiveLine.startsWith(",") ||
+        /^[+\-*/%&|^=<>!]/.test(effectiveLine);
+
+      // Peek at next line for continuations
+      const nextLineRaw = i < lines.length - 1 ? lines[i + 1].trim() : "";
+      const nextLineEffective = nextLineRaw
+        .replace(/__CURSOR_COM_\d+__$/, "")
+        .trim();
+      const nextLineStartsContinuation =
+        nextLineEffective.startsWith("(") ||
+        nextLineEffective.startsWith("[") ||
+        nextLineEffective.startsWith(".") ||
+        /^[+\-*/%&|^=<>!]/.test(nextLineEffective);
+
+      // Determine if we are inside a context where semicolons are NOT enforced (like arrays or arguments)
+      const currentBlock = blockStack[blockStack.length - 1];
+      const inSemicolonFreeContext =
+        currentBlock === "(" || currentBlock === "[";
 
       if (
         !isBlockStart &&
@@ -595,7 +632,10 @@ connection.onDocumentFormatting(
         !isFunction &&
         !isCommentOnly &&
         !isProperty &&
-        !endsWithComma &&
+        !endsWithContinuation &&
+        !startsWithContinuation &&
+        !nextLineStartsContinuation &&
+        !inSemicolonFreeContext &&
         !effectiveLine.endsWith(";") &&
         effectiveLine.length > 0
       ) {
@@ -623,7 +663,12 @@ connection.onDocumentFormatting(
       formattedLines.push(formattedLine);
 
       // Increase indent for next line if this line opens a block
-      if (effectiveLine.endsWith("{") || effectiveLine.endsWith("[")) {
+      if (
+        effectiveLine.endsWith("{") ||
+        effectiveLine.endsWith("[") ||
+        effectiveLine.endsWith("(")
+      ) {
+        blockStack.push(effectiveLine.slice(-1));
         indentLevel++;
       }
     }
