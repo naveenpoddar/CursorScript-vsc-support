@@ -9139,7 +9139,9 @@ var TokenType = /* @__PURE__ */ ((TokenType2) => {
   TokenType2[TokenType2["Import"] = 33] = "Import";
   TokenType2[TokenType2["Export"] = 34] = "Export";
   TokenType2[TokenType2["From"] = 35] = "From";
-  TokenType2[TokenType2["EOF"] = 36] = "EOF";
+  TokenType2[TokenType2["Async"] = 36] = "Async";
+  TokenType2[TokenType2["Await"] = 37] = "Await";
+  TokenType2[TokenType2["EOF"] = 38] = "EOF";
   return TokenType2;
 })(TokenType || {});
 var KEYWORDS = {
@@ -9151,7 +9153,9 @@ var KEYWORDS = {
   while: 9 /* While */,
   import: 33 /* Import */,
   export: 34 /* Export */,
-  from: 35 /* From */
+  from: 35 /* From */,
+  async: 36 /* Async */,
+  await: 37 /* Await */
 };
 var Lexer = class {
   source;
@@ -9174,7 +9178,7 @@ var Lexer = class {
       this.scanToken();
     }
     this.tokens.push({
-      type: 36 /* EOF */,
+      type: 38 /* EOF */,
       value: "EndOfFile",
       line: this.line,
       column: this.current - this.lineStart + 1
@@ -9397,10 +9401,13 @@ function tokenise(sourceCode, filename) {
 var Parser = class {
   tokens = [];
   notEOF() {
-    return this.tokens[0]?.type !== 36 /* EOF */;
+    return this.tokens[0]?.type !== 38 /* EOF */;
   }
   at() {
     return this.tokens[0];
+  }
+  peek() {
+    return this.tokens[1];
   }
   eat() {
     const prev = this.tokens.shift();
@@ -9428,32 +9435,48 @@ var Parser = class {
       case 4 /* Let */:
       case 5 /* Const */:
         return this.parse_var_declaration();
-      case 6 /* Fn */:
-        const fn = this.parse_function_declaration();
+      case 6 /* Fn */: {
+        const fn = this.parse_function_declaration(false);
         if (this.at().type === 18 /* Semicolon */) this.eat();
         return fn;
-      case 7 /* If */:
+      }
+      case 36 /* Async */: {
+        if (this.peek().type === 6 /* Fn */) {
+          const fn = this.parse_function_declaration(true);
+          if (this.at().type === 18 /* Semicolon */) this.eat();
+          return fn;
+        }
+        const expr = this.parse_expr();
+        if (this.at().type === 18 /* Semicolon */) this.eat();
+        return expr;
+      }
+      case 7 /* If */: {
         const ifStmt = this.parse_if_stmt();
         if (this.at().type === 18 /* Semicolon */) this.eat();
         return ifStmt;
-      case 9 /* While */:
+      }
+      case 9 /* While */: {
         const whileStmt = this.parse_while_stmt();
         if (this.at().type === 18 /* Semicolon */) this.eat();
         return whileStmt;
-      case 33 /* Import */:
+      }
+      case 33 /* Import */: {
         const importStmt = this.parse_import_declaration();
         if (this.at().type === 18 /* Semicolon */) this.eat();
         return importStmt;
-      case 34 /* Export */:
+      }
+      case 34 /* Export */: {
         const exportStmt = this.parse_export_declaration();
         if (this.at().type === 18 /* Semicolon */) this.eat();
         return exportStmt;
-      default:
+      }
+      default: {
         const expr = this.parse_expr();
         if (this.at().type === 18 /* Semicolon */) {
           this.eat();
         }
         return expr;
+      }
     }
   }
   parse_while_stmt() {
@@ -9507,9 +9530,10 @@ var Parser = class {
       column: 0
     };
   }
-  parse_function_declaration() {
+  parse_function_declaration(isAsync) {
     const line = this.at().line;
     const column = this.at().column;
+    if (isAsync) this.eat();
     this.eat();
     const name = this.expect(
       2 /* Identifier */,
@@ -9537,6 +9561,7 @@ var Parser = class {
       name,
       parameters: params,
       body,
+      async: isAsync,
       line,
       column
     };
@@ -9546,10 +9571,29 @@ var Parser = class {
     const line = this.at().line;
     const column = this.at().column;
     const isConst = this.eat().type === 5 /* Const */;
-    const identifier = this.expect(
-      2 /* Identifier */,
-      "Expected identifier name following let | const keywords"
-    ).value;
+    let identifier = "";
+    let identifiers;
+    if (this.at().type === 10 /* OpenParen */) {
+      this.eat();
+      identifiers = [];
+      while (this.notEOF() && this.at().type !== 11 /* CloseParen */) {
+        identifiers.push(
+          this.expect(
+            2 /* Identifier */,
+            "Expected identifier in destructuring"
+          ).value
+        );
+        if (this.at().type === 20 /* Comma */) {
+          this.eat();
+        }
+      }
+      this.expect(11 /* CloseParen */, "Expected ')' after destructuring");
+    } else {
+      identifier = this.expect(
+        2 /* Identifier */,
+        "Expected identifier name following let | const keywords"
+      ).value;
+    }
     if (this.at().type === 18 /* Semicolon */) {
       this.eat();
       if (isConst) {
@@ -9558,6 +9602,7 @@ var Parser = class {
       return {
         kind: "VarDeclaration",
         identifier,
+        identifiers,
         constant: isConst,
         line,
         column
@@ -9571,6 +9616,7 @@ var Parser = class {
     return {
       kind: "VarDeclaration",
       identifier,
+      identifiers,
       constant: isConst,
       value,
       line,
@@ -9768,9 +9814,18 @@ var Parser = class {
     return left;
   }
   parse_unary_expr() {
-    if (this.at().type === 31 /* Bang */ || this.at().type === 16 /* BinaryOperator */ && this.at().value === "-") {
-      const operator = this.eat().value;
+    if (this.at().type === 31 /* Bang */ || this.at().type === 37 /* Await */ || this.at().type === 16 /* BinaryOperator */ && this.at().value === "-") {
+      const token = this.eat();
+      const operator = token.value;
       const argument = this.parse_unary_expr();
+      if (token.type === 37 /* Await */) {
+        return {
+          kind: "AwaitExpr",
+          argument,
+          line: token.line,
+          column: token.column
+        };
+      }
       return {
         kind: "UnaryExpr",
         operator,
@@ -9856,7 +9911,7 @@ var Parser = class {
         if (parenCount === 0) {
           return this.tokens[i + 1]?.type === 32 /* Arrow */;
         }
-      } else if (type === 36 /* EOF */) return false;
+      } else if (type === 38 /* EOF */) return false;
     }
     return false;
   }
@@ -9896,6 +9951,8 @@ var Parser = class {
       kind: "LambdaExpr",
       parameters: params,
       body,
+      async: false,
+      // TODO: support async lambdas if needed
       line: this.at().line,
       column: this.at().column
     };
@@ -10200,6 +10257,7 @@ var GLOBAL_SYMBOLS = [
   { name: "print", kind: import_node.CompletionItemKind.Function, detail: "fn print(...)", documentation: "Built-in global function print", insertText: "print($0)" },
   { name: "printError", kind: import_node.CompletionItemKind.Function, detail: "fn printError(...)", documentation: "Built-in global function printError", insertText: "printError($1)" },
   { name: "time", kind: import_node.CompletionItemKind.Function, detail: "fn time(...)", documentation: "Built-in global function time", insertText: "time($1)" },
+  { name: "wait", kind: import_node.CompletionItemKind.Function, detail: "fn wait(...)", documentation: "Built-in global function wait", insertText: "wait($1)" },
   { name: "exit", kind: import_node.CompletionItemKind.Function, detail: "fn exit(...)", documentation: "Built-in global function exit", insertText: "exit($1)" },
   { name: "clear", kind: import_node.CompletionItemKind.Function, detail: "fn clear(...)", documentation: "Built-in global function clear", insertText: "clear($1)" },
   { name: "help", kind: import_node.CompletionItemKind.Function, detail: "fn help(...)", documentation: "Built-in global function help", insertText: "help($1)" },
@@ -10308,7 +10366,7 @@ function getSymbolsInProgram(program) {
                 members.push({
                   name: prop.key,
                   kind: import_node2.CompletionItemKind.Property,
-                  detail: `(property of ${varDecl.identifier})`
+                  detail: `(property of ${varDecl.identifier || "destructured"})`
                 });
               }
               break;
@@ -10326,20 +10384,34 @@ function getSymbolsInProgram(program) {
               break;
           }
         }
-        symbols.push({
-          name: varDecl.identifier,
-          kind: varDecl.constant ? import_node2.CompletionItemKind.Constant : import_node2.CompletionItemKind.Variable,
-          detail: `(${typeHint})`,
-          line: varDecl.line,
-          column: varDecl.column,
-          members: members.length > 0 ? members : void 0
-        });
+        if (varDecl.identifiers) {
+          for (const ident of varDecl.identifiers) {
+            symbols.push({
+              name: ident,
+              kind: varDecl.constant ? import_node2.CompletionItemKind.Constant : import_node2.CompletionItemKind.Variable,
+              detail: `(destructured ${typeHint})`,
+              line: varDecl.line,
+              column: varDecl.column
+            });
+          }
+        } else {
+          symbols.push({
+            name: varDecl.identifier,
+            kind: varDecl.constant ? import_node2.CompletionItemKind.Constant : import_node2.CompletionItemKind.Variable,
+            detail: `(${typeHint})`,
+            line: varDecl.line,
+            column: varDecl.column,
+            members: members.length > 0 ? members : void 0
+          });
+        }
       } else if (stmt.kind === "FunctionDeclaration") {
         const fnDecl = stmt;
         symbols.push({
           name: fnDecl.name,
           kind: import_node2.CompletionItemKind.Function,
-          detail: `fn ${fnDecl.name}(${fnDecl.parameters.join(", ")})`,
+          detail: `${fnDecl.async ? "async " : ""}fn ${fnDecl.name}(${fnDecl.parameters.join(
+            ", "
+          )})`,
           line: fnDecl.line,
           column: fnDecl.column
         });
@@ -10630,7 +10702,7 @@ connection.onDocumentFormatting(
       const isBlockStart = effectiveLine.endsWith("{") || effectiveLine.endsWith("[") || effectiveLine.endsWith("(");
       const isBlockEnd = effectiveLine.startsWith("}") || effectiveLine.startsWith("]") || effectiveLine.startsWith(")") || effectiveLine.endsWith("}");
       const isControlFlow = effectiveLine.startsWith("if") || effectiveLine.startsWith("while") || effectiveLine.startsWith("else");
-      const isFunction = effectiveLine.startsWith("fn ");
+      const isFunction = effectiveLine.startsWith("fn ") || effectiveLine.startsWith("async fn ");
       const isProperty = effectiveLine.includes(":") && !effectiveLine.startsWith("import") && !effectiveLine.startsWith("export");
       const isCommentOnly = effectiveLine.length === 0 && !!commentMatch;
       const endsWithContinuation = effectiveLine.endsWith(",") || effectiveLine.endsWith(".") || /[+\-*/%&|^=<>!]$/.test(effectiveLine);
@@ -10643,7 +10715,7 @@ connection.onDocumentFormatting(
       if (!isBlockStart && !isBlockEnd && !isControlFlow && !isFunction && !isCommentOnly && !isProperty && !endsWithContinuation && !startsWithContinuation && !nextLineStartsContinuation && !inSemicolonFreeContext && !effectiveLine.endsWith(";") && effectiveLine.length > 0) {
         effectiveLine += ";";
       }
-      effectiveLine = effectiveLine.replace(/\s*(==|!=|<=|>=|=)\s*/g, " $1 ").replace(/\s*,\s*/g, ", ").replace(/\s*:\s*/g, ": ").replace(/\)\s*\{/g, ") {").replace(/\b(if|while|fn|import)\s?\(/g, "$1 (").trim();
+      effectiveLine = effectiveLine.replace(/\s*(==|!=|<=|>=|=)\s*/g, " $1 ").replace(/\s*,\s*/g, ", ").replace(/\s*:\s*/g, ": ").replace(/\)\s*\{/g, ") {").replace(/\b(if|while|fn|import|async)\s?\(/g, "$1 (").trim();
       line = effectiveLine + (commentMatch ? (effectiveLine.length > 0 ? " " : "") + commentMatch[0].trim() : "");
       const formattedLine = " ".repeat(indentLevel * indentSize) + line;
       formattedLines.push(formattedLine);

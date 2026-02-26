@@ -157,7 +157,7 @@ function getSymbolsInProgram(program: Program): SymbolInfo[] {
                 members.push({
                   name: prop.key,
                   kind: CompletionItemKind.Property,
-                  detail: `(property of ${varDecl.identifier})`,
+                  detail: `(property of ${varDecl.identifier || "destructured"})`,
                 });
               }
               break;
@@ -176,22 +176,38 @@ function getSymbolsInProgram(program: Program): SymbolInfo[] {
           }
         }
 
-        symbols.push({
-          name: varDecl.identifier,
-          kind: varDecl.constant
-            ? CompletionItemKind.Constant
-            : CompletionItemKind.Variable,
-          detail: `(${typeHint})`,
-          line: varDecl.line,
-          column: varDecl.column,
-          members: members.length > 0 ? members : undefined,
-        });
+        if (varDecl.identifiers) {
+          for (const ident of varDecl.identifiers) {
+            symbols.push({
+              name: ident,
+              kind: varDecl.constant
+                ? CompletionItemKind.Constant
+                : CompletionItemKind.Variable,
+              detail: `(destructured ${typeHint})`,
+              line: varDecl.line,
+              column: varDecl.column,
+            });
+          }
+        } else {
+          symbols.push({
+            name: varDecl.identifier,
+            kind: varDecl.constant
+              ? CompletionItemKind.Constant
+              : CompletionItemKind.Variable,
+            detail: `(${typeHint})`,
+            line: varDecl.line,
+            column: varDecl.column,
+            members: members.length > 0 ? members : undefined,
+          });
+        }
       } else if (stmt.kind === "FunctionDeclaration") {
         const fnDecl = stmt as FunctionDeclaration;
         symbols.push({
           name: fnDecl.name,
           kind: CompletionItemKind.Function,
-          detail: `fn ${fnDecl.name}(${fnDecl.parameters.join(", ")})`,
+          detail: `${fnDecl.async ? "async " : ""}fn ${fnDecl.name}(${fnDecl.parameters.join(
+            ", ",
+          )})`,
           line: fnDecl.line,
           column: fnDecl.column,
         });
@@ -592,7 +608,9 @@ connection.onDocumentFormatting(
         effectiveLine.startsWith("if") ||
         effectiveLine.startsWith("while") ||
         effectiveLine.startsWith("else");
-      const isFunction = effectiveLine.startsWith("fn ");
+      const isFunction =
+        effectiveLine.startsWith("fn ") ||
+        effectiveLine.startsWith("async fn ");
       const isProperty =
         effectiveLine.includes(":") &&
         !effectiveLine.startsWith("import") &&
@@ -648,7 +666,7 @@ connection.onDocumentFormatting(
         .replace(/\s*,\s*/g, ", ")
         .replace(/\s*:\s*/g, ": ")
         .replace(/\)\s*\{/g, ") {")
-        .replace(/\b(if|while|fn|import)\s?\(/g, "$1 (")
+        .replace(/\b(if|while|fn|import|async)\s?\(/g, "$1 (")
         .trim();
 
       // Reconstruct line with comment if existed

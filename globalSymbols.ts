@@ -271,6 +271,7 @@ export const GLOBAL_SYMBOLS: GlobalSymbol[] = [
   { name: 'print', kind: CompletionItemKind.Function, detail: 'fn print(...)', documentation: 'Built-in global function print', insertText: 'print($0)' },
   { name: 'printError', kind: CompletionItemKind.Function, detail: 'fn printError(...)', documentation: 'Built-in global function printError', insertText: 'printError($1)' },
   { name: 'time', kind: CompletionItemKind.Function, detail: 'fn time(...)', documentation: 'Built-in global function time', insertText: 'time($1)' },
+  { name: 'wait', kind: CompletionItemKind.Function, detail: 'fn wait(...)', documentation: 'Built-in global function wait', insertText: 'wait($1)' },
   { name: 'exit', kind: CompletionItemKind.Function, detail: 'fn exit(...)', documentation: 'Built-in global function exit', insertText: 'exit($1)' },
   { name: 'clear', kind: CompletionItemKind.Function, detail: 'fn clear(...)', documentation: 'Built-in global function clear', insertText: 'clear($1)' },
   { name: 'help', kind: CompletionItemKind.Function, detail: 'fn help(...)', documentation: 'Built-in global function help', insertText: 'help($1)' },

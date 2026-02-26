@@ -8,6 +8,15 @@
         ],
         "description": "Create a new function"
     },
+    "Async Function": {
+        "prefix": "async",
+        "body": [
+            "async fn ${1:name}(${2:params}) {",
+            "\t$0",
+            "}"
+        ],
+        "description": "Create a new async function"
+    },
     "Print Statement": {
         "prefix": "print",
         "body": [
@@ -57,5 +66,12 @@
             "}"
         ],
         "description": "While loop"
+    },
+    "Await Statement": {
+        "prefix": "await",
+        "body": [
+            "const (${1:data}, ${2:error}) = await ${3:promise};$0"
+        ],
+        "description": "Await a promise with error handling"
     }
 }

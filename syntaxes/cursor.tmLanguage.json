@@ -26,7 +26,7 @@
 		},
 		{
 			"name": "keyword.control.cursor",
-			"match": "\\b(fn|let|const|return|if|else|while|for|import|export|from)\\b"
+			"match": "\\b(fn|let|const|return|if|else|while|for|import|export|from|async|await)\\b"
 		},
 		{
 			"name": "entity.name.function.cursor",
