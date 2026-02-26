@@ -521,6 +521,21 @@ connection.onDocumentFormatting(
 
     let text = document.getText();
 
+    // 0. Protection: Hide string literals and comments to prevent formatting inside them
+    const strings: string[] = [];
+    // Matches double quoted strings, handling escaped quotes
+    text = text.replace(/"(?:[^"\\]|\\.)*"/g, (match) => {
+      strings.push(match);
+      return `__CURSOR_STR_${strings.length - 1}__`;
+    });
+
+    const comments: string[] = [];
+    // Hide single-line comments
+    text = text.replace(/\/\/.*$/gm, (match) => {
+      comments.push(match);
+      return `__CURSOR_COM_${comments.length - 1}__`;
+    });
+
     // 1. Expansion: Force braces onto new lines for multi-line professional look
     // Add newline after '{' if followed by non-whitespace (excluding '}')
     text = text.replace(/\{\s*([^\s}])/g, "{\n$1");
@@ -545,39 +560,50 @@ connection.onDocumentFormatting(
         continue;
       }
 
+      // Detect and handle trailing comments for formatting logic
+      const commentMatch = line.match(/__CURSOR_COM_\d+__$/);
+      let effectiveLine = commentMatch
+        ? line.slice(0, commentMatch.index).trim()
+        : line;
+
       // De-indent before constructing the line if it starts with a closing brace
-      if (line.startsWith("}") || line.startsWith("]")) {
+      if (effectiveLine.startsWith("}") || effectiveLine.startsWith("]")) {
         indentLevel = Math.max(0, indentLevel - 1);
       }
 
       // Enforce Semicolons on statements that aren't blocks
-      const isBlockStart = line.endsWith("{") || line.endsWith("[");
+      const isBlockStart =
+        effectiveLine.endsWith("{") || effectiveLine.endsWith("[");
       const isBlockEnd =
-        line.startsWith("}") || line.startsWith("]") || line.endsWith("}");
+        effectiveLine.startsWith("}") ||
+        effectiveLine.startsWith("]") ||
+        effectiveLine.endsWith("}");
       const isControlFlow =
-        line.startsWith("if") ||
-        line.startsWith("while") ||
-        line.startsWith("else");
-      const isFunction = line.startsWith("fn ");
-      const isComment = line.startsWith("//");
-      const isProperty = line.includes(":") && !line.startsWith("import");
-      const endsWithComma = line.endsWith(",");
+        effectiveLine.startsWith("if") ||
+        effectiveLine.startsWith("while") ||
+        effectiveLine.startsWith("else");
+      const isFunction = effectiveLine.startsWith("fn ");
+      const isProperty =
+        effectiveLine.includes(":") && !effectiveLine.startsWith("import");
+      const endsWithComma = effectiveLine.endsWith(",");
+      const isCommentOnly = effectiveLine.length === 0 && !!commentMatch;
 
       if (
         !isBlockStart &&
         !isBlockEnd &&
         !isControlFlow &&
         !isFunction &&
-        !isComment &&
+        !isCommentOnly &&
         !isProperty &&
         !endsWithComma &&
-        !line.endsWith(";")
+        !effectiveLine.endsWith(";") &&
+        effectiveLine.length > 0
       ) {
-        line += ";";
+        effectiveLine += ";";
       }
 
-      // Polish
-      line = line
+      // Polish the code part
+      effectiveLine = effectiveLine
         .replace(/\s*(==|!=|<=|>=|=)\s*/g, " $1 ")
         .replace(/\s*,\s*/g, ", ")
         .replace(/\s*:\s*/g, ": ")
@@ -585,22 +611,44 @@ connection.onDocumentFormatting(
         .replace(/\b(if|while|fn|import)\s?\(/g, "$1 (")
         .trim();
 
+      // Reconstruct line with comment if existed
+      line =
+        effectiveLine +
+        (commentMatch
+          ? (effectiveLine.length > 0 ? " " : "") + commentMatch[0].trim()
+          : "");
+
       // Indentation
       const formattedLine = " ".repeat(indentLevel * indentSize) + line;
       formattedLines.push(formattedLine);
 
       // Increase indent for next line if this line opens a block
-      if (line.endsWith("{") || line.endsWith("[")) {
+      if (effectiveLine.endsWith("{") || effectiveLine.endsWith("[")) {
         indentLevel++;
       }
     }
 
+    // Restore strings and comments
+    let formattedText = formattedLines.join("\n");
+    formattedText = formattedText.replace(
+      /__CURSOR_STR_(\d+)__/g,
+      (match, index) => {
+        return strings[parseInt(index)];
+      },
+    );
+    formattedText = formattedText.replace(
+      /__CURSOR_COM_(\d+)__/g,
+      (match, index) => {
+        return comments[parseInt(index)];
+      },
+    );
+
     const fullRange: Range = {
       start: { line: 0, character: 0 },
-      end: { line: lines.length + 10, character: 0 }, // Extra range to ensure we cover any added newlines
+      end: { line: document.lineCount + 10, character: 0 },
     };
 
-    return [TextEdit.replace(fullRange, formattedLines.join("\n"))];
+    return [TextEdit.replace(fullRange, formattedText)];
   },
 );
 

@@ -10596,6 +10596,16 @@ connection.onDocumentFormatting(
     const document = documents.get(params.textDocument.uri);
     if (!document) return [];
     let text = document.getText();
+    const strings = [];
+    text = text.replace(/"(?:[^"\\]|\\.)*"/g, (match) => {
+      strings.push(match);
+      return `__CURSOR_STR_${strings.length - 1}__`;
+    });
+    const comments = [];
+    text = text.replace(/\/\/.*$/gm, (match) => {
+      comments.push(match);
+      return `__CURSOR_COM_${comments.length - 1}__`;
+    });
     text = text.replace(/\{\s*([^\s}])/g, "{\n$1");
     text = text.replace(/([^\s{])\s*\}/g, "$1\n}");
     const lines = text.split(/\r?\n/);
@@ -10610,32 +10620,47 @@ connection.onDocumentFormatting(
         }
         continue;
       }
-      if (line.startsWith("}") || line.startsWith("]")) {
+      const commentMatch = line.match(/__CURSOR_COM_\d+__$/);
+      let effectiveLine = commentMatch ? line.slice(0, commentMatch.index).trim() : line;
+      if (effectiveLine.startsWith("}") || effectiveLine.startsWith("]")) {
         indentLevel = Math.max(0, indentLevel - 1);
       }
-      const isBlockStart = line.endsWith("{") || line.endsWith("[");
-      const isBlockEnd = line.startsWith("}") || line.startsWith("]") || line.endsWith("}");
-      const isControlFlow = line.startsWith("if") || line.startsWith("while") || line.startsWith("else");
-      const isFunction = line.startsWith("fn ");
-      const isComment = line.startsWith("//");
-      const isProperty = line.includes(":") && !line.startsWith("import");
-      const endsWithComma = line.endsWith(",");
-      if (!isBlockStart && !isBlockEnd && !isControlFlow && !isFunction && !isComment && !isProperty && !endsWithComma && !line.endsWith(";")) {
-        line += ";";
+      const isBlockStart = effectiveLine.endsWith("{") || effectiveLine.endsWith("[");
+      const isBlockEnd = effectiveLine.startsWith("}") || effectiveLine.startsWith("]") || effectiveLine.endsWith("}");
+      const isControlFlow = effectiveLine.startsWith("if") || effectiveLine.startsWith("while") || effectiveLine.startsWith("else");
+      const isFunction = effectiveLine.startsWith("fn ");
+      const isProperty = effectiveLine.includes(":") && !effectiveLine.startsWith("import");
+      const endsWithComma = effectiveLine.endsWith(",");
+      const isCommentOnly = effectiveLine.length === 0 && !!commentMatch;
+      if (!isBlockStart && !isBlockEnd && !isControlFlow && !isFunction && !isCommentOnly && !isProperty && !endsWithComma && !effectiveLine.endsWith(";") && effectiveLine.length > 0) {
+        effectiveLine += ";";
       }
-      line = line.replace(/\s*(==|!=|<=|>=|=)\s*/g, " $1 ").replace(/\s*,\s*/g, ", ").replace(/\s*:\s*/g, ": ").replace(/\)\s*\{/g, ") {").replace(/\b(if|while|fn|import)\s?\(/g, "$1 (").trim();
+      effectiveLine = effectiveLine.replace(/\s*(==|!=|<=|>=|=)\s*/g, " $1 ").replace(/\s*,\s*/g, ", ").replace(/\s*:\s*/g, ": ").replace(/\)\s*\{/g, ") {").replace(/\b(if|while|fn|import)\s?\(/g, "$1 (").trim();
+      line = effectiveLine + (commentMatch ? (effectiveLine.length > 0 ? " " : "") + commentMatch[0].trim() : "");
       const formattedLine = " ".repeat(indentLevel * indentSize) + line;
       formattedLines.push(formattedLine);
-      if (line.endsWith("{") || line.endsWith("[")) {
+      if (effectiveLine.endsWith("{") || effectiveLine.endsWith("[")) {
         indentLevel++;
       }
     }
+    let formattedText = formattedLines.join("\n");
+    formattedText = formattedText.replace(
+      /__CURSOR_STR_(\d+)__/g,
+      (match, index) => {
+        return strings[parseInt(index)];
+      }
+    );
+    formattedText = formattedText.replace(
+      /__CURSOR_COM_(\d+)__/g,
+      (match, index) => {
+        return comments[parseInt(index)];
+      }
+    );
     const fullRange = {
       start: { line: 0, character: 0 },
-      end: { line: lines.length + 10, character: 0 }
-      // Extra range to ensure we cover any added newlines
+      end: { line: document.lineCount + 10, character: 0 }
     };
-    return [import_node2.TextEdit.replace(fullRange, formattedLines.join("\n"))];
+    return [import_node2.TextEdit.replace(fullRange, formattedText)];
   }
 );
 documents.listen(connection);
