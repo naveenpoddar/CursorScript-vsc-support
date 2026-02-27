@@ -20,6 +20,7 @@ const libMap = {
   "FileLib.ts": "File",
   "AudioLib.ts": "Audio",
   "DateTimeLib.ts": "DateTime",
+  "TerminalLib.ts": "Terminal",
   "GameLib.ts": "Game",
   "Engine3D.ts": "Engine3D",
   "PerlinNoise.ts": "PerlinNoise",
@@ -27,6 +28,7 @@ const libMap = {
   "ThreadLib.ts": "Thread",
   "Crypto.ts": "Crypto",
   "WindowLib.ts": "Window",
+  "StringLib.ts": "String",
 };
 
 const libraryDefinitions = {};
