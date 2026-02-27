@@ -9360,12 +9360,38 @@ var Lexer = class {
    */
   handleString() {
     let value = "";
-    while (this.peek() !== '"' && !this.isAtEnd()) {
-      if (this.peek() === "\n") {
-        this.line++;
-        this.lineStart = this.current + 1;
+    while (!this.isAtEnd() && this.peek() !== '"') {
+      if (this.peek() === "\\") {
+        this.advance();
+        if (this.isAtEnd()) break;
+        const next = this.advance();
+        switch (next) {
+          case '"':
+            value += '"';
+            break;
+          case "\\":
+            value += "\\";
+            break;
+          case "n":
+            value += "\n";
+            break;
+          case "t":
+            value += "	";
+            break;
+          case "r":
+            value += "\r";
+            break;
+          default:
+            value += "\\" + next;
+            break;
+        }
+      } else {
+        if (this.peek() === "\n") {
+          this.line++;
+          this.lineStart = this.current + 1;
+        }
+        value += this.advance();
       }
-      value += this.advance();
     }
     if (this.isAtEnd()) {
       throw `Unterminated string at ${this.filename}:${this.line}:${this.current - this.lineStart + 1}`;
@@ -9378,12 +9404,19 @@ var Lexer = class {
    */
   handleRegex() {
     let value = "";
-    while (this.peek() !== '"' && !this.isAtEnd()) {
-      if (this.peek() === "\n") {
-        this.line++;
-        this.lineStart = this.current + 1;
+    while (!this.isAtEnd() && this.peek() !== '"') {
+      if (this.peek() === "\\") {
+        value += this.advance();
+        if (!this.isAtEnd()) {
+          value += this.advance();
+        }
+      } else {
+        if (this.peek() === "\n") {
+          this.line++;
+          this.lineStart = this.current + 1;
+        }
+        value += this.advance();
       }
-      value += this.advance();
     }
     if (this.isAtEnd()) {
       throw `Unterminated regex at ${this.filename}:${this.line}:${this.current - this.lineStart + 1}`;
