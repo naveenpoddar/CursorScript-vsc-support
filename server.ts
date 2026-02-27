@@ -147,6 +147,9 @@ function getSymbolsInProgram(program: Program): SymbolInfo[] {
             case "StringLiteral":
               typeHint += ": string";
               break;
+            case "RegexLiteral":
+              typeHint += ": regex";
+              break;
             case "ArrayLiteral":
               typeHint += ": array";
               break;
@@ -539,8 +542,8 @@ connection.onDocumentFormatting(
 
     // 0. Protection: Hide string literals and comments to prevent formatting inside them
     const strings: string[] = [];
-    // Matches double quoted strings, handling escaped quotes
-    text = text.replace(/"(?:[^"\\]|\\.)*"/g, (match) => {
+    // Matches double quoted strings and r-prefixed regex literals, handling escaped quotes
+    text = text.replace(/r?"(?:[^"\\]|\\.)*"/g, (match) => {
       strings.push(match);
       return `__CURSOR_STR_${strings.length - 1}__`;
     });

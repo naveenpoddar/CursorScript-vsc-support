@@ -9107,55 +9107,56 @@ var TokenType = /* @__PURE__ */ ((TokenType2) => {
   TokenType2[TokenType2["Number"] = 1] = "Number";
   TokenType2[TokenType2["Identifier"] = 2] = "Identifier";
   TokenType2[TokenType2["String"] = 3] = "String";
-  TokenType2[TokenType2["Let"] = 4] = "Let";
-  TokenType2[TokenType2["Const"] = 5] = "Const";
-  TokenType2[TokenType2["Fn"] = 6] = "Fn";
-  TokenType2[TokenType2["If"] = 7] = "If";
-  TokenType2[TokenType2["Else"] = 8] = "Else";
-  TokenType2[TokenType2["While"] = 9] = "While";
-  TokenType2[TokenType2["OpenParen"] = 10] = "OpenParen";
-  TokenType2[TokenType2["CloseParen"] = 11] = "CloseParen";
-  TokenType2[TokenType2["OpenBrace"] = 12] = "OpenBrace";
-  TokenType2[TokenType2["CloseBrace"] = 13] = "CloseBrace";
-  TokenType2[TokenType2["OpenBracket"] = 14] = "OpenBracket";
-  TokenType2[TokenType2["CloseBracket"] = 15] = "CloseBracket";
-  TokenType2[TokenType2["BinaryOperator"] = 16] = "BinaryOperator";
-  TokenType2[TokenType2["Equals"] = 17] = "Equals";
-  TokenType2[TokenType2["Semicolon"] = 18] = "Semicolon";
-  TokenType2[TokenType2["Colon"] = 19] = "Colon";
-  TokenType2[TokenType2["Comma"] = 20] = "Comma";
-  TokenType2[TokenType2["Dot"] = 21] = "Dot";
-  TokenType2[TokenType2["Quote"] = 22] = "Quote";
-  TokenType2[TokenType2["LessThan"] = 23] = "LessThan";
-  TokenType2[TokenType2["GreaterThan"] = 24] = "GreaterThan";
-  TokenType2[TokenType2["LessThanEquals"] = 25] = "LessThanEquals";
-  TokenType2[TokenType2["GreaterThanEquals"] = 26] = "GreaterThanEquals";
-  TokenType2[TokenType2["EqualsEquals"] = 27] = "EqualsEquals";
-  TokenType2[TokenType2["NotEquals"] = 28] = "NotEquals";
-  TokenType2[TokenType2["AmpersandAmpersand"] = 29] = "AmpersandAmpersand";
-  TokenType2[TokenType2["BarBar"] = 30] = "BarBar";
-  TokenType2[TokenType2["Bang"] = 31] = "Bang";
-  TokenType2[TokenType2["Arrow"] = 32] = "Arrow";
-  TokenType2[TokenType2["Import"] = 33] = "Import";
-  TokenType2[TokenType2["Export"] = 34] = "Export";
-  TokenType2[TokenType2["From"] = 35] = "From";
-  TokenType2[TokenType2["Async"] = 36] = "Async";
-  TokenType2[TokenType2["Await"] = 37] = "Await";
-  TokenType2[TokenType2["EOF"] = 38] = "EOF";
+  TokenType2[TokenType2["Regex"] = 4] = "Regex";
+  TokenType2[TokenType2["Let"] = 5] = "Let";
+  TokenType2[TokenType2["Const"] = 6] = "Const";
+  TokenType2[TokenType2["Fn"] = 7] = "Fn";
+  TokenType2[TokenType2["If"] = 8] = "If";
+  TokenType2[TokenType2["Else"] = 9] = "Else";
+  TokenType2[TokenType2["While"] = 10] = "While";
+  TokenType2[TokenType2["OpenParen"] = 11] = "OpenParen";
+  TokenType2[TokenType2["CloseParen"] = 12] = "CloseParen";
+  TokenType2[TokenType2["OpenBrace"] = 13] = "OpenBrace";
+  TokenType2[TokenType2["CloseBrace"] = 14] = "CloseBrace";
+  TokenType2[TokenType2["OpenBracket"] = 15] = "OpenBracket";
+  TokenType2[TokenType2["CloseBracket"] = 16] = "CloseBracket";
+  TokenType2[TokenType2["BinaryOperator"] = 17] = "BinaryOperator";
+  TokenType2[TokenType2["Equals"] = 18] = "Equals";
+  TokenType2[TokenType2["Semicolon"] = 19] = "Semicolon";
+  TokenType2[TokenType2["Colon"] = 20] = "Colon";
+  TokenType2[TokenType2["Comma"] = 21] = "Comma";
+  TokenType2[TokenType2["Dot"] = 22] = "Dot";
+  TokenType2[TokenType2["Quote"] = 23] = "Quote";
+  TokenType2[TokenType2["LessThan"] = 24] = "LessThan";
+  TokenType2[TokenType2["GreaterThan"] = 25] = "GreaterThan";
+  TokenType2[TokenType2["LessThanEquals"] = 26] = "LessThanEquals";
+  TokenType2[TokenType2["GreaterThanEquals"] = 27] = "GreaterThanEquals";
+  TokenType2[TokenType2["EqualsEquals"] = 28] = "EqualsEquals";
+  TokenType2[TokenType2["NotEquals"] = 29] = "NotEquals";
+  TokenType2[TokenType2["AmpersandAmpersand"] = 30] = "AmpersandAmpersand";
+  TokenType2[TokenType2["BarBar"] = 31] = "BarBar";
+  TokenType2[TokenType2["Bang"] = 32] = "Bang";
+  TokenType2[TokenType2["Arrow"] = 33] = "Arrow";
+  TokenType2[TokenType2["Import"] = 34] = "Import";
+  TokenType2[TokenType2["Export"] = 35] = "Export";
+  TokenType2[TokenType2["From"] = 36] = "From";
+  TokenType2[TokenType2["Async"] = 37] = "Async";
+  TokenType2[TokenType2["Await"] = 38] = "Await";
+  TokenType2[TokenType2["EOF"] = 39] = "EOF";
   return TokenType2;
 })(TokenType || {});
 var KEYWORDS = {
-  let: 4 /* Let */,
-  const: 5 /* Const */,
-  fn: 6 /* Fn */,
-  if: 7 /* If */,
-  else: 8 /* Else */,
-  while: 9 /* While */,
-  import: 33 /* Import */,
-  export: 34 /* Export */,
-  from: 35 /* From */,
-  async: 36 /* Async */,
-  await: 37 /* Await */
+  let: 5 /* Let */,
+  const: 6 /* Const */,
+  fn: 7 /* Fn */,
+  if: 8 /* If */,
+  else: 9 /* Else */,
+  while: 10 /* While */,
+  import: 34 /* Import */,
+  export: 35 /* Export */,
+  from: 36 /* From */,
+  async: 37 /* Async */,
+  await: 38 /* Await */
 };
 var Lexer = class {
   source;
@@ -9178,7 +9179,7 @@ var Lexer = class {
       this.scanToken();
     }
     this.tokens.push({
-      type: 38 /* EOF */,
+      type: 39 /* EOF */,
       value: "EndOfFile",
       line: this.line,
       column: this.current - this.lineStart + 1
@@ -9211,7 +9212,7 @@ var Lexer = class {
       type,
       value: text,
       line: this.line,
-      column: this.start - this.lineStart + 1
+      column: (value !== void 0 ? this.start : this.start) - this.lineStart + 1
     });
   }
   scanToken() {
@@ -9219,73 +9220,73 @@ var Lexer = class {
     switch (char) {
       // Single-character tokens
       case "(":
-        this.addToken(10 /* OpenParen */);
+        this.addToken(11 /* OpenParen */);
         break;
       case ")":
-        this.addToken(11 /* CloseParen */);
+        this.addToken(12 /* CloseParen */);
         break;
       case "{":
-        this.addToken(12 /* OpenBrace */);
+        this.addToken(13 /* OpenBrace */);
         break;
       case "}":
-        this.addToken(13 /* CloseBrace */);
+        this.addToken(14 /* CloseBrace */);
         break;
       case "[":
-        this.addToken(14 /* OpenBracket */);
+        this.addToken(15 /* OpenBracket */);
         break;
       case "]":
-        this.addToken(15 /* CloseBracket */);
+        this.addToken(16 /* CloseBracket */);
         break;
       case ";":
-        this.addToken(18 /* Semicolon */);
+        this.addToken(19 /* Semicolon */);
         break;
       case ":":
-        this.addToken(19 /* Colon */);
+        this.addToken(20 /* Colon */);
         break;
       case ",":
-        this.addToken(20 /* Comma */);
+        this.addToken(21 /* Comma */);
         break;
       case ".":
-        this.addToken(21 /* Dot */);
+        this.addToken(22 /* Dot */);
         break;
       case "=":
         if (this.match("=")) {
-          this.addToken(27 /* EqualsEquals */);
+          this.addToken(28 /* EqualsEquals */);
         } else {
-          this.addToken(17 /* Equals */);
+          this.addToken(18 /* Equals */);
         }
         break;
       case "<":
         if (this.match("=")) {
-          this.addToken(25 /* LessThanEquals */);
+          this.addToken(26 /* LessThanEquals */);
         } else {
-          this.addToken(23 /* LessThan */);
+          this.addToken(24 /* LessThan */);
         }
         break;
       case ">":
         if (this.match("=")) {
-          this.addToken(26 /* GreaterThanEquals */);
+          this.addToken(27 /* GreaterThanEquals */);
         } else {
-          this.addToken(24 /* GreaterThan */);
+          this.addToken(25 /* GreaterThan */);
         }
         break;
       case "!":
         if (this.match("=")) {
-          this.addToken(28 /* NotEquals */);
+          this.addToken(29 /* NotEquals */);
         } else {
-          this.addToken(31 /* Bang */);
+          this.addToken(32 /* Bang */);
         }
         break;
       case "&":
         if (this.match("&")) {
-          this.addToken(29 /* AmpersandAmpersand */);
+          this.addToken(30 /* AmpersandAmpersand */);
         } else {
           throw `Unexpected character '&' at ${this.filename}:${this.line}:${this.start - this.lineStart + 1}`;
         }
         break;
       case "|":
         if (this.match("|")) {
-          this.addToken(30 /* BarBar */);
+          this.addToken(31 /* BarBar */);
         } else {
           throw `Unexpected character '|' at ${this.filename}:${this.line}:${this.start - this.lineStart + 1}`;
         }
@@ -9297,11 +9298,11 @@ var Lexer = class {
         if (char === "/" && this.peek() === "/") {
           while (this.peek() !== "\n" && !this.isAtEnd()) this.advance();
         } else {
-          this.addToken(16 /* BinaryOperator */);
+          this.addToken(17 /* BinaryOperator */);
         }
         break;
       case "%":
-        this.addToken(16 /* BinaryOperator */);
+        this.addToken(17 /* BinaryOperator */);
         break;
       case "-":
         this.handleHyphen();
@@ -9319,6 +9320,14 @@ var Lexer = class {
       case '"':
         this.handleString();
         break;
+      case "r":
+        if (this.peek() === '"') {
+          this.advance();
+          this.handleRegex();
+        } else {
+          this.handleIdentifier();
+        }
+        break;
       default:
         if (this.isDigit(char)) {
           this.handleNumber();
@@ -9335,13 +9344,13 @@ var Lexer = class {
    */
   handleHyphen() {
     const lastToken = this.tokens[this.tokens.length - 1];
-    const isNegativeSign = this.isDigit(this.peek()) && (!lastToken || lastToken.type !== 2 /* Identifier */ && lastToken.type !== 1 /* Number */ && lastToken.type !== 11 /* CloseParen */);
+    const isNegativeSign = this.isDigit(this.peek()) && (!lastToken || lastToken.type !== 2 /* Identifier */ && lastToken.type !== 1 /* Number */ && lastToken.type !== 12 /* CloseParen */);
     if (this.match(">")) {
-      this.addToken(32 /* Arrow */);
+      this.addToken(33 /* Arrow */);
     } else if (isNegativeSign) {
       this.handleNumber();
     } else {
-      this.addToken(16 /* BinaryOperator */);
+      this.addToken(17 /* BinaryOperator */);
     }
   }
   /**
@@ -9361,6 +9370,24 @@ var Lexer = class {
     }
     this.advance();
     this.addToken(3 /* String */, value);
+  }
+  /**
+   * Consumes a regex literal.
+   */
+  handleRegex() {
+    let value = "";
+    while (this.peek() !== '"' && !this.isAtEnd()) {
+      if (this.peek() === "\n") {
+        this.line++;
+        this.lineStart = this.current + 1;
+      }
+      value += this.advance();
+    }
+    if (this.isAtEnd()) {
+      throw `Unterminated regex at ${this.filename}:${this.line}:${this.current - this.lineStart + 1}`;
+    }
+    this.advance();
+    this.addToken(4 /* Regex */, value);
   }
   /**
    * Consumes a numeric literal (integer or float).
@@ -9401,7 +9428,7 @@ function tokenise(sourceCode, filename) {
 var Parser = class {
   tokens = [];
   notEOF() {
-    return this.tokens[0]?.type !== 38 /* EOF */;
+    return this.tokens[0]?.type !== 39 /* EOF */;
   }
   at() {
     return this.tokens[0];
@@ -9432,47 +9459,47 @@ var Parser = class {
   }
   parse_stmt() {
     switch (this.at().type) {
-      case 4 /* Let */:
-      case 5 /* Const */:
+      case 5 /* Let */:
+      case 6 /* Const */:
         return this.parse_var_declaration();
-      case 6 /* Fn */: {
+      case 7 /* Fn */: {
         const fn = this.parse_function_declaration(false);
-        if (this.at().type === 18 /* Semicolon */) this.eat();
+        if (this.at().type === 19 /* Semicolon */) this.eat();
         return fn;
       }
-      case 36 /* Async */: {
-        if (this.peek().type === 6 /* Fn */) {
+      case 37 /* Async */: {
+        if (this.peek().type === 7 /* Fn */) {
           const fn = this.parse_function_declaration(true);
-          if (this.at().type === 18 /* Semicolon */) this.eat();
+          if (this.at().type === 19 /* Semicolon */) this.eat();
           return fn;
         }
         const expr = this.parse_expr();
-        if (this.at().type === 18 /* Semicolon */) this.eat();
+        if (this.at().type === 19 /* Semicolon */) this.eat();
         return expr;
       }
-      case 7 /* If */: {
+      case 8 /* If */: {
         const ifStmt = this.parse_if_stmt();
-        if (this.at().type === 18 /* Semicolon */) this.eat();
+        if (this.at().type === 19 /* Semicolon */) this.eat();
         return ifStmt;
       }
-      case 9 /* While */: {
+      case 10 /* While */: {
         const whileStmt = this.parse_while_stmt();
-        if (this.at().type === 18 /* Semicolon */) this.eat();
+        if (this.at().type === 19 /* Semicolon */) this.eat();
         return whileStmt;
       }
-      case 33 /* Import */: {
+      case 34 /* Import */: {
         const importStmt = this.parse_import_declaration();
-        if (this.at().type === 18 /* Semicolon */) this.eat();
+        if (this.at().type === 19 /* Semicolon */) this.eat();
         return importStmt;
       }
-      case 34 /* Export */: {
+      case 35 /* Export */: {
         const exportStmt = this.parse_export_declaration();
-        if (this.at().type === 18 /* Semicolon */) this.eat();
+        if (this.at().type === 19 /* Semicolon */) this.eat();
         return exportStmt;
       }
       default: {
         const expr = this.parse_expr();
-        if (this.at().type === 18 /* Semicolon */) {
+        if (this.at().type === 19 /* Semicolon */) {
           this.eat();
         }
         return expr;
@@ -9481,15 +9508,15 @@ var Parser = class {
   }
   parse_while_stmt() {
     this.eat();
-    this.expect(10 /* OpenParen */, "Expected '(' after while");
+    this.expect(11 /* OpenParen */, "Expected '(' after while");
     const condition = this.parse_expr();
-    this.expect(11 /* CloseParen */, "Expected ')' after while condition");
-    this.expect(12 /* OpenBrace */, "Expected '{' after while condition");
+    this.expect(12 /* CloseParen */, "Expected ')' after while condition");
+    this.expect(13 /* OpenBrace */, "Expected '{' after while condition");
     const body = [];
-    while (this.notEOF() && this.at().type !== 13 /* CloseBrace */) {
+    while (this.notEOF() && this.at().type !== 14 /* CloseBrace */) {
       body.push(this.parse_stmt());
     }
-    this.expect(13 /* CloseBrace */, "Expected '}' after while body");
+    this.expect(14 /* CloseBrace */, "Expected '}' after while body");
     return {
       kind: "WhileStmt",
       condition,
@@ -9498,27 +9525,27 @@ var Parser = class {
   }
   parse_if_stmt() {
     this.eat();
-    this.expect(10 /* OpenParen */, "Expected '(' after if");
+    this.expect(11 /* OpenParen */, "Expected '(' after if");
     const condition = this.parse_expr();
-    this.expect(11 /* CloseParen */, "Expected ')' after if condition");
-    this.expect(12 /* OpenBrace */, "Expected '{' after if condition");
+    this.expect(12 /* CloseParen */, "Expected ')' after if condition");
+    this.expect(13 /* OpenBrace */, "Expected '{' after if condition");
     const thenBranch = [];
-    while (this.notEOF() && this.at().type !== 13 /* CloseBrace */) {
+    while (this.notEOF() && this.at().type !== 14 /* CloseBrace */) {
       thenBranch.push(this.parse_stmt());
     }
-    this.expect(13 /* CloseBrace */, "Expected '}' after if body");
+    this.expect(14 /* CloseBrace */, "Expected '}' after if body");
     let elseBranch;
-    if (this.at().type === 8 /* Else */) {
+    if (this.at().type === 9 /* Else */) {
       this.eat();
-      if (this.at().type === 7 /* If */) {
+      if (this.at().type === 8 /* If */) {
         elseBranch = [this.parse_if_stmt()];
       } else {
-        this.expect(12 /* OpenBrace */, "Expected '{' after else");
+        this.expect(13 /* OpenBrace */, "Expected '{' after else");
         elseBranch = [];
-        while (this.notEOF() && this.at().type !== 13 /* CloseBrace */) {
+        while (this.notEOF() && this.at().type !== 14 /* CloseBrace */) {
           elseBranch.push(this.parse_stmt());
         }
-        this.expect(13 /* CloseBrace */, "Expected '}' after else body");
+        this.expect(14 /* CloseBrace */, "Expected '}' after else body");
       }
     }
     return {
@@ -9548,14 +9575,14 @@ var Parser = class {
       params.push(arg.symbol);
     }
     this.expect(
-      12 /* OpenBrace */,
+      13 /* OpenBrace */,
       "Expected '{' following function parameters"
     );
     const body = [];
-    while (this.notEOF() && this.at().type !== 13 /* CloseBrace */) {
+    while (this.notEOF() && this.at().type !== 14 /* CloseBrace */) {
       body.push(this.parse_stmt());
     }
-    this.expect(13 /* CloseBrace */, "Expected '}' following function body");
+    this.expect(14 /* CloseBrace */, "Expected '}' following function body");
     const fn = {
       kind: "FunctionDeclaration",
       name,
@@ -9570,31 +9597,31 @@ var Parser = class {
   parse_var_declaration() {
     const line = this.at().line;
     const column = this.at().column;
-    const isConst = this.eat().type === 5 /* Const */;
+    const isConst = this.eat().type === 6 /* Const */;
     let identifier = "";
     let identifiers;
-    if (this.at().type === 10 /* OpenParen */) {
+    if (this.at().type === 11 /* OpenParen */) {
       this.eat();
       identifiers = [];
-      while (this.notEOF() && this.at().type !== 11 /* CloseParen */) {
+      while (this.notEOF() && this.at().type !== 12 /* CloseParen */) {
         identifiers.push(
           this.expect(
             2 /* Identifier */,
             "Expected identifier in destructuring"
           ).value
         );
-        if (this.at().type === 20 /* Comma */) {
+        if (this.at().type === 21 /* Comma */) {
           this.eat();
         }
       }
-      this.expect(11 /* CloseParen */, "Expected ')' after destructuring");
+      this.expect(12 /* CloseParen */, "Expected ')' after destructuring");
     } else {
       identifier = this.expect(
         2 /* Identifier */,
         "Expected identifier name following let | const keywords"
       ).value;
     }
-    if (this.at().type === 18 /* Semicolon */) {
+    if (this.at().type === 19 /* Semicolon */) {
       this.eat();
       if (isConst) {
         throw "Must assign value to constant expression. No value provided";
@@ -9608,9 +9635,9 @@ var Parser = class {
         column
       };
     }
-    this.expect(17 /* Equals */, "Expected '=' after variable declaration");
+    this.expect(18 /* Equals */, "Expected '=' after variable declaration");
     const value = this.parse_expr();
-    if (this.at().type === 18 /* Semicolon */) {
+    if (this.at().type === 19 /* Semicolon */) {
       this.eat();
     }
     return {
@@ -9625,23 +9652,23 @@ var Parser = class {
   }
   parse_import_declaration() {
     this.eat();
-    this.expect(12 /* OpenBrace */, "Expected '{' after import");
+    this.expect(13 /* OpenBrace */, "Expected '{' after import");
     const specifiers = [];
-    while (this.notEOF() && this.at().type !== 13 /* CloseBrace */) {
+    while (this.notEOF() && this.at().type !== 14 /* CloseBrace */) {
       specifiers.push(
         this.expect(2 /* Identifier */, "Expected identifier in import list").value
       );
-      if (this.at().type === 20 /* Comma */) {
+      if (this.at().type === 21 /* Comma */) {
         this.eat();
       }
     }
-    this.expect(13 /* CloseBrace */, "Expected '}' after import list");
-    this.expect(35 /* From */, "Expected 'from' after import specifiers");
+    this.expect(14 /* CloseBrace */, "Expected '}' after import list");
+    this.expect(36 /* From */, "Expected 'from' after import specifiers");
     const source = this.expect(
       3 /* String */,
       "Expected string literal for import source"
     ).value;
-    if (this.at().type === 18 /* Semicolon */) {
+    if (this.at().type === 19 /* Semicolon */) {
       this.eat();
     }
     return {
@@ -9669,13 +9696,41 @@ var Parser = class {
     return this.parse_assignment_expr();
   }
   parse_assignment_expr() {
+    if (this.at().type === 11 /* OpenParen */ && this.isDestructuring()) {
+      const line = this.at().line;
+      const column = this.at().column;
+      this.eat();
+      const identifiers = [];
+      while (this.notEOF() && this.at().type !== 12 /* CloseParen */) {
+        if (this.at().type === 2 /* Identifier */) {
+          identifiers.push(this.eat().value);
+        } else {
+          throw `Expected identifier in destructuring assignment, got ${this.at().type}`;
+        }
+        if (this.at().type === 21 /* Comma */) this.eat();
+      }
+      this.expect(12 /* CloseParen */, "Expected ')' after destructuring");
+      this.expect(
+        18 /* Equals */,
+        "Expected '=' after destructuring assignment"
+      );
+      const value = this.parse_assignment_expr();
+      return {
+        kind: "AssignmentExpr",
+        assignee: { kind: "Identifier", symbol: "destructured" },
+        value,
+        identifiers,
+        line,
+        column
+      };
+    }
     const left = this.parse_logical_or_expr();
-    if (this.at().type === 17 /* Equals */) {
+    if (this.at().type === 18 /* Equals */) {
       const line = this.at().line;
       const column = this.at().column;
       this.eat();
       const value = this.parse_assignment_expr();
-      if (this.at().type === 18 /* Semicolon */) {
+      if (this.at().type === 19 /* Semicolon */) {
         this.eat();
       }
       return {
@@ -9688,9 +9743,23 @@ var Parser = class {
     }
     return left;
   }
+  isDestructuring() {
+    let parenCount = 0;
+    for (let i = 0; i < this.tokens.length; i++) {
+      const type = this.tokens[i].type;
+      if (type === 11 /* OpenParen */) parenCount++;
+      else if (type === 12 /* CloseParen */) {
+        parenCount--;
+        if (parenCount === 0) {
+          return this.tokens[i + 1]?.type === 18 /* Equals */;
+        }
+      } else if (type === 39 /* EOF */) return false;
+    }
+    return false;
+  }
   parse_logical_or_expr() {
     let left = this.parse_logical_and_expr();
-    while (this.at().type === 30 /* BarBar */) {
+    while (this.at().type === 31 /* BarBar */) {
       const operator = this.eat().value;
       const right = this.parse_logical_and_expr();
       left = {
@@ -9706,7 +9775,7 @@ var Parser = class {
   }
   parse_logical_and_expr() {
     let left = this.parse_object_expr();
-    while (this.at().type === 29 /* AmpersandAmpersand */) {
+    while (this.at().type === 30 /* AmpersandAmpersand */) {
       const operator = this.eat().value;
       const right = this.parse_object_expr();
       left = {
@@ -9721,12 +9790,12 @@ var Parser = class {
     return left;
   }
   parse_object_expr() {
-    if (this.at().type !== 12 /* OpenBrace */) {
+    if (this.at().type !== 13 /* OpenBrace */) {
       return this.parse_comparison_expr();
     }
     this.eat();
     const properties = new Array();
-    while (this.notEOF() && this.at().type != 13 /* CloseBrace */) {
+    while (this.notEOF() && this.at().type != 14 /* CloseBrace */) {
       const token = this.eat();
       let key;
       if (token.type === 2 /* Identifier */ || token.type === 3 /* String */) {
@@ -9734,7 +9803,7 @@ var Parser = class {
       } else {
         throw `Object literal key expected, got ${TokenType[token.type]} at ${this.filename}:${token.line}:${token.column}`;
       }
-      if (this.at().type === 20 /* Comma */) {
+      if (this.at().type === 21 /* Comma */) {
         this.eat();
         properties.push({
           kind: "Property",
@@ -9743,7 +9812,7 @@ var Parser = class {
           column: this.at().column
         });
         continue;
-      } else if (this.at().type === 13 /* CloseBrace */) {
+      } else if (this.at().type === 14 /* CloseBrace */) {
         properties.push({
           kind: "Property",
           key,
@@ -9753,21 +9822,21 @@ var Parser = class {
         continue;
       }
       this.expect(
-        19 /* Colon */,
+        20 /* Colon */,
         "Missing colon following identifier in Object Literal"
       );
       const value = this.parse_expr();
       properties.push({ kind: "Property", key, value });
-      if (this.at().type === 20 /* Comma */) {
+      if (this.at().type === 21 /* Comma */) {
         this.eat();
       }
     }
-    this.expect(13 /* CloseBrace */, "Expected '}' closing object literal");
+    this.expect(14 /* CloseBrace */, "Expected '}' closing object literal");
     return { kind: "ObjectLiteral", properties };
   }
   parse_comparison_expr() {
     let left = this.parse_additive_expr();
-    while (this.at().type === 23 /* LessThan */ || this.at().type === 24 /* GreaterThan */ || this.at().type === 25 /* LessThanEquals */ || this.at().type === 26 /* GreaterThanEquals */ || this.at().type === 27 /* EqualsEquals */ || this.at().type === 28 /* NotEquals */) {
+    while (this.at().type === 24 /* LessThan */ || this.at().type === 25 /* GreaterThan */ || this.at().type === 26 /* LessThanEquals */ || this.at().type === 27 /* GreaterThanEquals */ || this.at().type === 28 /* EqualsEquals */ || this.at().type === 29 /* NotEquals */) {
       const operator = this.eat().value;
       const right = this.parse_additive_expr();
       left = {
@@ -9814,11 +9883,11 @@ var Parser = class {
     return left;
   }
   parse_unary_expr() {
-    if (this.at().type === 31 /* Bang */ || this.at().type === 37 /* Await */ || this.at().type === 16 /* BinaryOperator */ && this.at().value === "-") {
+    if (this.at().type === 32 /* Bang */ || this.at().type === 38 /* Await */ || this.at().type === 17 /* BinaryOperator */ && this.at().value === "-") {
       const token = this.eat();
       const operator = token.value;
       const argument = this.parse_unary_expr();
-      if (token.type === 37 /* Await */) {
+      if (token.type === 38 /* Await */) {
         return {
           kind: "AwaitExpr",
           argument,
@@ -9838,7 +9907,7 @@ var Parser = class {
   }
   parse_call_member_expr() {
     const member = this.parse_member_expr();
-    if (this.at().type === 10 /* OpenParen */) {
+    if (this.at().type === 11 /* OpenParen */) {
       return this.parse_call_expr(member);
     }
     return member;
@@ -9851,31 +9920,31 @@ var Parser = class {
       line: this.at().line,
       column: this.at().column
     };
-    if (this.at().type === 10 /* OpenParen */) {
+    if (this.at().type === 11 /* OpenParen */) {
       call_expr = this.parse_call_expr(call_expr);
     }
     return call_expr;
   }
   parse_args() {
-    this.expect(10 /* OpenParen */, "Expected '(' after function call");
-    const args = this.at().type === 11 /* CloseParen */ ? [] : this.parse_arguments_list();
-    this.expect(11 /* CloseParen */, "Expected ')' after function call");
+    this.expect(11 /* OpenParen */, "Expected '(' after function call");
+    const args = this.at().type === 12 /* CloseParen */ ? [] : this.parse_arguments_list();
+    this.expect(12 /* CloseParen */, "Expected ')' after function call");
     return args;
   }
   parse_arguments_list() {
     const args = [this.parse_assignment_expr()];
-    while (this.at().type === 20 /* Comma */ && this.eat()) {
+    while (this.at().type === 21 /* Comma */ && this.eat()) {
       args.push(this.parse_assignment_expr());
     }
     return args;
   }
   parse_member_expr() {
     let object = this.parse_primary_expr();
-    while (this.at().type === 21 /* Dot */ || this.at().type === 14 /* OpenBracket */) {
+    while (this.at().type === 22 /* Dot */ || this.at().type === 15 /* OpenBracket */) {
       const operator = this.eat();
       let property;
       let computed;
-      if (operator.type === 21 /* Dot */) {
+      if (operator.type === 22 /* Dot */) {
         computed = false;
         property = this.parse_primary_expr();
         if (property.kind !== "Identifier") {
@@ -9885,7 +9954,7 @@ var Parser = class {
         computed = true;
         property = this.parse_expr();
         this.expect(
-          15 /* CloseBracket */,
+          16 /* CloseBracket */,
           "Expected ']' after computed property"
         );
       }
@@ -9901,31 +9970,40 @@ var Parser = class {
     return object;
   }
   isLambda() {
-    if (this.at().type !== 10 /* OpenParen */) return false;
+    let offset = 0;
+    if (this.at().type === 37 /* Async */) {
+      offset = 1;
+    }
+    if (this.tokens[offset]?.type !== 11 /* OpenParen */) return false;
     let parenCount = 0;
-    for (let i = 0; i < this.tokens.length; i++) {
+    for (let i = offset; i < this.tokens.length; i++) {
       const type = this.tokens[i].type;
-      if (type === 10 /* OpenParen */) parenCount++;
-      else if (type === 11 /* CloseParen */) {
+      if (type === 11 /* OpenParen */) parenCount++;
+      else if (type === 12 /* CloseParen */) {
         parenCount--;
         if (parenCount === 0) {
-          return this.tokens[i + 1]?.type === 32 /* Arrow */;
+          return this.tokens[i + 1]?.type === 33 /* Arrow */;
         }
-      } else if (type === 38 /* EOF */) return false;
+      } else if (type === 39 /* EOF */) return false;
     }
     return false;
   }
   parse_lambda_expr() {
-    this.expect(10 /* OpenParen */, "Expected '(' at start of lambda");
+    let isAsync = false;
+    if (this.at().type === 37 /* Async */) {
+      this.eat();
+      isAsync = true;
+    }
+    this.expect(11 /* OpenParen */, "Expected '(' at start of lambda");
     const params = [];
-    if (this.at().type !== 11 /* CloseParen */) {
+    if (this.at().type !== 12 /* CloseParen */) {
       params.push(
         this.expect(
           2 /* Identifier */,
           "Expected identifier in lambda params"
         ).value
       );
-      while (this.at().type === 20 /* Comma */) {
+      while (this.at().type === 21 /* Comma */) {
         this.eat();
         params.push(
           this.expect(
@@ -9935,15 +10013,15 @@ var Parser = class {
         );
       }
     }
-    this.expect(11 /* CloseParen */, "Expected ')' after lambda params");
-    this.expect(32 /* Arrow */, "Expected '->' after lambda params");
+    this.expect(12 /* CloseParen */, "Expected ')' after lambda params");
+    this.expect(33 /* Arrow */, "Expected '->' after lambda params");
     const body = [];
-    if (this.at().type === 12 /* OpenBrace */) {
+    if (this.at().type === 13 /* OpenBrace */) {
       this.eat();
-      while (this.notEOF() && this.at().type !== 13 /* CloseBrace */) {
+      while (this.notEOF() && this.at().type !== 14 /* CloseBrace */) {
         body.push(this.parse_stmt());
       }
-      this.expect(13 /* CloseBrace */, "Expected '}' after lambda body");
+      this.expect(14 /* CloseBrace */, "Expected '}' after lambda body");
     } else {
       body.push(this.parse_expr());
     }
@@ -9951,8 +10029,7 @@ var Parser = class {
       kind: "LambdaExpr",
       parameters: params,
       body,
-      async: false,
-      // TODO: support async lambdas if needed
+      async: isAsync,
       line: this.at().line,
       column: this.at().column
     };
@@ -9981,18 +10058,29 @@ var Parser = class {
           column: this.at().column,
           value: this.eat().value
         };
-      case 10 /* OpenParen */:
+      case 4 /* Regex */:
+        return {
+          kind: "RegexLiteral",
+          line: this.at().line,
+          column: this.at().column,
+          value: this.eat().value
+        };
+      case 11 /* OpenParen */:
+      case 37 /* Async */:
         if (this.isLambda()) {
           return this.parse_lambda_expr();
+        }
+        if (tk === 37 /* Async */) {
+          throw "Unexpected 'async' keyword. Expected async lambda or async function.";
         }
         this.eat();
         const value = this.parse_expr();
         this.expect(
-          11 /* CloseParen */,
+          12 /* CloseParen */,
           "Unexpected token found inside parentheses expression. Expected ')' closing parenthesis."
         );
         return value;
-      case 14 /* OpenBracket */:
+      case 15 /* OpenBracket */:
         return this.parse_array_literal();
       default:
         throw `Unexpected token found during parsing at ${this.filename}:${this.at().line}:${this.at().column}: ${JSON.stringify(this.at())}`;
@@ -10001,13 +10089,13 @@ var Parser = class {
   parse_array_literal() {
     this.eat();
     const elements = new Array();
-    while (this.notEOF() && this.at().type !== 15 /* CloseBracket */) {
+    while (this.notEOF() && this.at().type !== 16 /* CloseBracket */) {
       elements.push(this.parse_expr());
-      if (this.at().type === 20 /* Comma */) {
+      if (this.at().type === 21 /* Comma */) {
         this.eat();
       }
     }
-    this.expect(15 /* CloseBracket */, "Expected ']' after array literal");
+    this.expect(16 /* CloseBracket */, "Expected ']' after array literal");
     return {
       kind: "ArrayLiteral",
       elements
@@ -10018,6 +10106,7 @@ var Parser = class {
 // globalSymbols.ts
 var import_node = __toESM(require_node3());
 var AUDIO_MEMBERS = [
+  { name: "loadAsync", kind: import_node.CompletionItemKind.Method, detail: "Audio.loadAsync(path: string)", insertText: "loadAsync(${1:path})" },
   { name: "load", kind: import_node.CompletionItemKind.Method, detail: "Audio.load(path: string)", insertText: "load(${1:path})" },
   { name: "play", kind: import_node.CompletionItemKind.Method, detail: "Audio.play(audioId: number, options: PlayOptions = {})", insertText: "play(${1:audioId}, ${2:options})" },
   { name: "pause", kind: import_node.CompletionItemKind.Method, detail: "Audio.pause(audioId: number)", insertText: "pause(${1:audioId})" },
@@ -10028,8 +10117,8 @@ var AUDIO_MEMBERS = [
 var CRYPTO_MEMBERS = [
   { name: "uuid", kind: import_node.CompletionItemKind.Method, detail: "Crypto.uuid()", insertText: "uuid()" },
   { name: "uuid7", kind: import_node.CompletionItemKind.Method, detail: "Crypto.uuid7()", insertText: "uuid7()" },
-  { name: "hash", kind: import_node.CompletionItemKind.Method, detail: "Crypto.hash(data: string, onComplete: any)", insertText: "hash(${1:data}, ${2:onComplete})" },
-  { name: "verifyHash", kind: import_node.CompletionItemKind.Method, detail: "Crypto.verifyHash(data: string, hash: string, onComplete: any)", insertText: "verifyHash(${1:data}, ${2:hash}, ${3:onComplete})" },
+  { name: "hash", kind: import_node.CompletionItemKind.Method, detail: "Crypto.hash(data: string)", insertText: "hash(${1:data})" },
+  { name: "verifyHash", kind: import_node.CompletionItemKind.Method, detail: "Crypto.verifyHash(data: string, hash: string)", insertText: "verifyHash(${1:data}, ${2:hash})" },
   { name: "sha256", kind: import_node.CompletionItemKind.Method, detail: "Crypto.sha256(data: string)", insertText: "sha256(${1:data})" },
   { name: "hmacSha256", kind: import_node.CompletionItemKind.Method, detail: "Crypto.hmacSha256(data: string, key: string)", insertText: "hmacSha256(${1:data}, ${2:key})" },
   { name: "base64Encode", kind: import_node.CompletionItemKind.Method, detail: "Crypto.base64Encode(data: any)", insertText: "base64Encode(${1:data})" },
@@ -10076,6 +10165,10 @@ var ENGINE3D_MEMBERS = [
   { name: "render", kind: import_node.CompletionItemKind.Method, detail: "Engine3D.render(sceneId: any, screenWidth: any, screenHeight: any)", insertText: "render(${1:sceneId}, ${2:screenWidth}, ${3:screenHeight})" }
 ];
 var FILE_MEMBERS = [
+  { name: "readAsync", kind: import_node.CompletionItemKind.Method, detail: "File.readAsync(path: string)", insertText: "readAsync(${1:path})" },
+  { name: "writeAsync", kind: import_node.CompletionItemKind.Method, detail: "File.writeAsync(path: string, data: string)", insertText: "writeAsync(${1:path}, ${2:data})" },
+  { name: "readBytesAsync", kind: import_node.CompletionItemKind.Method, detail: "File.readBytesAsync(path: string)", insertText: "readBytesAsync(${1:path})" },
+  { name: "listAsync", kind: import_node.CompletionItemKind.Method, detail: "File.listAsync(directory: string)", insertText: "listAsync(${1:directory})" },
   { name: "read", kind: import_node.CompletionItemKind.Method, detail: "File.read(path: string)", insertText: "read(${1:path})" },
   { name: "write", kind: import_node.CompletionItemKind.Method, detail: "File.write(path: string, data: string)", insertText: "write(${1:path}, ${2:data})" },
   { name: "readBytes", kind: import_node.CompletionItemKind.Method, detail: "File.readBytes(path: string)", insertText: "readBytes(${1:path})" },
@@ -10155,11 +10248,11 @@ var NETWORK_MEMBERS = [
   { name: "SetHeaders", kind: import_node.CompletionItemKind.Method, detail: "Network.SetHeaders(headers: any)", insertText: "SetHeaders(${1:headers})" },
   { name: "AddHeader", kind: import_node.CompletionItemKind.Method, detail: "Network.AddHeader(key: any, value: any)", insertText: "AddHeader(${1:key}, ${2:value})" },
   { name: "ClearHeaders", kind: import_node.CompletionItemKind.Method, detail: "Network.ClearHeaders()", insertText: "ClearHeaders()" },
-  { name: "get", kind: import_node.CompletionItemKind.Method, detail: "Network.get(url: any, optionsOrCallback: any = {})", insertText: "get(${1:url}, ${2:optionsOrCallback})" },
-  { name: "post", kind: import_node.CompletionItemKind.Method, detail: "Network.post(url: any, body: any, optionsOrCallback: any = {})", insertText: "post(${1:url}, ${2:body}, ${3:optionsOrCallback})" },
-  { name: "put", kind: import_node.CompletionItemKind.Method, detail: "Network.put(url: any, body: any, optionsOrCallback: any = {})", insertText: "put(${1:url}, ${2:body}, ${3:optionsOrCallback})" },
-  { name: "delete", kind: import_node.CompletionItemKind.Method, detail: "Network.delete(url: any, optionsOrCallback: any = {})", insertText: "delete(${1:url}, ${2:optionsOrCallback})" },
-  { name: "patch", kind: import_node.CompletionItemKind.Method, detail: "Network.patch(url: any, body: any, optionsOrCallback: any = {})", insertText: "patch(${1:url}, ${2:body}, ${3:optionsOrCallback})" },
+  { name: "get", kind: import_node.CompletionItemKind.Method, detail: "Network.get(url: any, options: any = {})", insertText: "get(${1:url}, ${2:options})" },
+  { name: "post", kind: import_node.CompletionItemKind.Method, detail: "Network.post(url: any, body: any, options: any = {})", insertText: "post(${1:url}, ${2:body}, ${3:options})" },
+  { name: "put", kind: import_node.CompletionItemKind.Method, detail: "Network.put(url: any, body: any, options: any = {})", insertText: "put(${1:url}, ${2:body}, ${3:options})" },
+  { name: "delete", kind: import_node.CompletionItemKind.Method, detail: "Network.delete(url: any, options: any = {})", insertText: "delete(${1:url}, ${2:options})" },
+  { name: "patch", kind: import_node.CompletionItemKind.Method, detail: "Network.patch(url: any, body: any, options: any = {})", insertText: "patch(${1:url}, ${2:body}, ${3:options})" },
   { name: "head", kind: import_node.CompletionItemKind.Method, detail: "Network.head(url: any, options: any = {})", insertText: "head(${1:url}, ${2:options})" },
   { name: "parseOptions", kind: import_node.CompletionItemKind.Method, detail: "Network.parseOptions(options: any)", insertText: "parseOptions(${1:options})" },
   { name: "parseResponse", kind: import_node.CompletionItemKind.Method, detail: "Network.parseResponse(response: Response)", insertText: "parseResponse(${1:response})" }
@@ -10189,7 +10282,8 @@ var STRING_MEMBERS = [
   { name: "replace", kind: import_node.CompletionItemKind.Method, detail: "String.replace(str: string, search: string, replacement: string)", insertText: "replace(${1:str}, ${2:search}, ${3:replacement})" },
   { name: "take", kind: import_node.CompletionItemKind.Method, detail: "String.take(str: string, length: number)", insertText: "take(${1:str}, ${2:length})" },
   { name: "skip", kind: import_node.CompletionItemKind.Method, detail: "String.skip(str: string, length: number)", insertText: "skip(${1:str}, ${2:length})" },
-  { name: "substr", kind: import_node.CompletionItemKind.Method, detail: "String.substr(str: string, start: number, length: number)", insertText: "substr(${1:str}, ${2:start}, ${3:length})" }
+  { name: "substr", kind: import_node.CompletionItemKind.Method, detail: "String.substr(str: string, start: number, length: number)", insertText: "substr(${1:str}, ${2:start}, ${3:length})" },
+  { name: "test", kind: import_node.CompletionItemKind.Method, detail: "String.test(str: string, regex: RegExp)", insertText: "test(${1:str}, ${2:regex})" }
 ];
 var THREAD_MEMBERS = [
   { name: "send", kind: import_node.CompletionItemKind.Method, detail: "Thread.send(data: any)", insertText: "send(${1:data})" },
@@ -10355,6 +10449,9 @@ function getSymbolsInProgram(program) {
               break;
             case "StringLiteral":
               typeHint += ": string";
+              break;
+            case "RegexLiteral":
+              typeHint += ": regex";
               break;
             case "ArrayLiteral":
               typeHint += ": array";
@@ -10669,7 +10766,7 @@ connection.onDocumentFormatting(
     if (!document) return [];
     let text = document.getText();
     const strings = [];
-    text = text.replace(/"(?:[^"\\]|\\.)*"/g, (match) => {
+    text = text.replace(/r?"(?:[^"\\]|\\.)*"/g, (match) => {
       strings.push(match);
       return `__CURSOR_STR_${strings.length - 1}__`;
     });

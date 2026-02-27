@@ -19,6 +19,7 @@ export interface GlobalSymbol {
 }
 
 const AUDIO_MEMBERS: SymbolMember[] = [
+  { name: 'loadAsync', kind: CompletionItemKind.Method, detail: 'Audio.loadAsync(path: string)', insertText: 'loadAsync(${1:path})' },
   { name: 'load', kind: CompletionItemKind.Method, detail: 'Audio.load(path: string)', insertText: 'load(${1:path})' },
   { name: 'play', kind: CompletionItemKind.Method, detail: 'Audio.play(audioId: number, options: PlayOptions = {})', insertText: 'play(${1:audioId}, ${2:options})' },
   { name: 'pause', kind: CompletionItemKind.Method, detail: 'Audio.pause(audioId: number)', insertText: 'pause(${1:audioId})' },
@@ -30,8 +31,8 @@ const AUDIO_MEMBERS: SymbolMember[] = [
 const CRYPTO_MEMBERS: SymbolMember[] = [
   { name: 'uuid', kind: CompletionItemKind.Method, detail: 'Crypto.uuid()', insertText: 'uuid()' },
   { name: 'uuid7', kind: CompletionItemKind.Method, detail: 'Crypto.uuid7()', insertText: 'uuid7()' },
-  { name: 'hash', kind: CompletionItemKind.Method, detail: 'Crypto.hash(data: string, onComplete: any)', insertText: 'hash(${1:data}, ${2:onComplete})' },
-  { name: 'verifyHash', kind: CompletionItemKind.Method, detail: 'Crypto.verifyHash(data: string, hash: string, onComplete: any)', insertText: 'verifyHash(${1:data}, ${2:hash}, ${3:onComplete})' },
+  { name: 'hash', kind: CompletionItemKind.Method, detail: 'Crypto.hash(data: string)', insertText: 'hash(${1:data})' },
+  { name: 'verifyHash', kind: CompletionItemKind.Method, detail: 'Crypto.verifyHash(data: string, hash: string)', insertText: 'verifyHash(${1:data}, ${2:hash})' },
   { name: 'sha256', kind: CompletionItemKind.Method, detail: 'Crypto.sha256(data: string)', insertText: 'sha256(${1:data})' },
   { name: 'hmacSha256', kind: CompletionItemKind.Method, detail: 'Crypto.hmacSha256(data: string, key: string)', insertText: 'hmacSha256(${1:data}, ${2:key})' },
   { name: 'base64Encode', kind: CompletionItemKind.Method, detail: 'Crypto.base64Encode(data: any)', insertText: 'base64Encode(${1:data})' },
@@ -81,6 +82,10 @@ const ENGINE3D_MEMBERS: SymbolMember[] = [
 ];
 
 const FILE_MEMBERS: SymbolMember[] = [
+  { name: 'readAsync', kind: CompletionItemKind.Method, detail: 'File.readAsync(path: string)', insertText: 'readAsync(${1:path})' },
+  { name: 'writeAsync', kind: CompletionItemKind.Method, detail: 'File.writeAsync(path: string, data: string)', insertText: 'writeAsync(${1:path}, ${2:data})' },
+  { name: 'readBytesAsync', kind: CompletionItemKind.Method, detail: 'File.readBytesAsync(path: string)', insertText: 'readBytesAsync(${1:path})' },
+  { name: 'listAsync', kind: CompletionItemKind.Method, detail: 'File.listAsync(directory: string)', insertText: 'listAsync(${1:directory})' },
   { name: 'read', kind: CompletionItemKind.Method, detail: 'File.read(path: string)', insertText: 'read(${1:path})' },
   { name: 'write', kind: CompletionItemKind.Method, detail: 'File.write(path: string, data: string)', insertText: 'write(${1:path}, ${2:data})' },
   { name: 'readBytes', kind: CompletionItemKind.Method, detail: 'File.readBytes(path: string)', insertText: 'readBytes(${1:path})' },
@@ -164,11 +169,11 @@ const NETWORK_MEMBERS: SymbolMember[] = [
   { name: 'SetHeaders', kind: CompletionItemKind.Method, detail: 'Network.SetHeaders(headers: any)', insertText: 'SetHeaders(${1:headers})' },
   { name: 'AddHeader', kind: CompletionItemKind.Method, detail: 'Network.AddHeader(key: any, value: any)', insertText: 'AddHeader(${1:key}, ${2:value})' },
   { name: 'ClearHeaders', kind: CompletionItemKind.Method, detail: 'Network.ClearHeaders()', insertText: 'ClearHeaders()' },
-  { name: 'get', kind: CompletionItemKind.Method, detail: 'Network.get(url: any, optionsOrCallback: any = {})', insertText: 'get(${1:url}, ${2:optionsOrCallback})' },
-  { name: 'post', kind: CompletionItemKind.Method, detail: 'Network.post(url: any, body: any, optionsOrCallback: any = {})', insertText: 'post(${1:url}, ${2:body}, ${3:optionsOrCallback})' },
-  { name: 'put', kind: CompletionItemKind.Method, detail: 'Network.put(url: any, body: any, optionsOrCallback: any = {})', insertText: 'put(${1:url}, ${2:body}, ${3:optionsOrCallback})' },
-  { name: 'delete', kind: CompletionItemKind.Method, detail: 'Network.delete(url: any, optionsOrCallback: any = {})', insertText: 'delete(${1:url}, ${2:optionsOrCallback})' },
-  { name: 'patch', kind: CompletionItemKind.Method, detail: 'Network.patch(url: any, body: any, optionsOrCallback: any = {})', insertText: 'patch(${1:url}, ${2:body}, ${3:optionsOrCallback})' },
+  { name: 'get', kind: CompletionItemKind.Method, detail: 'Network.get(url: any, options: any = {})', insertText: 'get(${1:url}, ${2:options})' },
+  { name: 'post', kind: CompletionItemKind.Method, detail: 'Network.post(url: any, body: any, options: any = {})', insertText: 'post(${1:url}, ${2:body}, ${3:options})' },
+  { name: 'put', kind: CompletionItemKind.Method, detail: 'Network.put(url: any, body: any, options: any = {})', insertText: 'put(${1:url}, ${2:body}, ${3:options})' },
+  { name: 'delete', kind: CompletionItemKind.Method, detail: 'Network.delete(url: any, options: any = {})', insertText: 'delete(${1:url}, ${2:options})' },
+  { name: 'patch', kind: CompletionItemKind.Method, detail: 'Network.patch(url: any, body: any, options: any = {})', insertText: 'patch(${1:url}, ${2:body}, ${3:options})' },
   { name: 'head', kind: CompletionItemKind.Method, detail: 'Network.head(url: any, options: any = {})', insertText: 'head(${1:url}, ${2:options})' },
   { name: 'parseOptions', kind: CompletionItemKind.Method, detail: 'Network.parseOptions(options: any)', insertText: 'parseOptions(${1:options})' },
   { name: 'parseResponse', kind: CompletionItemKind.Method, detail: 'Network.parseResponse(response: Response)', insertText: 'parseResponse(${1:response})' },
@@ -201,6 +206,7 @@ const STRING_MEMBERS: SymbolMember[] = [
   { name: 'take', kind: CompletionItemKind.Method, detail: 'String.take(str: string, length: number)', insertText: 'take(${1:str}, ${2:length})' },
   { name: 'skip', kind: CompletionItemKind.Method, detail: 'String.skip(str: string, length: number)', insertText: 'skip(${1:str}, ${2:length})' },
   { name: 'substr', kind: CompletionItemKind.Method, detail: 'String.substr(str: string, start: number, length: number)', insertText: 'substr(${1:str}, ${2:start}, ${3:length})' },
+  { name: 'test', kind: CompletionItemKind.Method, detail: 'String.test(str: string, regex: RegExp)', insertText: 'test(${1:str}, ${2:regex})' },
 ];
 
 const THREAD_MEMBERS: SymbolMember[] = [
