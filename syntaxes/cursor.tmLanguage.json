@@ -37,7 +37,7 @@
     },
     {
       "name": "keyword.control.cursor",
-      "match": "\\b(fn|let|const|return|if|else|while|for|import|export|from|async|await)\\b"
+      "match": "\\b(fn|let|const|return|if|else|while|for|import|export|from|async|await|break|continue)\\b"
     },
     {
       "name": "entity.name.function.cursor",

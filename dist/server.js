@@ -9115,35 +9115,37 @@ var TokenType = /* @__PURE__ */ ((TokenType2) => {
   TokenType2[TokenType2["Else"] = 9] = "Else";
   TokenType2[TokenType2["While"] = 10] = "While";
   TokenType2[TokenType2["Return"] = 11] = "Return";
-  TokenType2[TokenType2["OpenParen"] = 12] = "OpenParen";
-  TokenType2[TokenType2["CloseParen"] = 13] = "CloseParen";
-  TokenType2[TokenType2["OpenBrace"] = 14] = "OpenBrace";
-  TokenType2[TokenType2["CloseBrace"] = 15] = "CloseBrace";
-  TokenType2[TokenType2["OpenBracket"] = 16] = "OpenBracket";
-  TokenType2[TokenType2["CloseBracket"] = 17] = "CloseBracket";
-  TokenType2[TokenType2["BinaryOperator"] = 18] = "BinaryOperator";
-  TokenType2[TokenType2["Equals"] = 19] = "Equals";
-  TokenType2[TokenType2["Semicolon"] = 20] = "Semicolon";
-  TokenType2[TokenType2["Colon"] = 21] = "Colon";
-  TokenType2[TokenType2["Comma"] = 22] = "Comma";
-  TokenType2[TokenType2["Dot"] = 23] = "Dot";
-  TokenType2[TokenType2["Quote"] = 24] = "Quote";
-  TokenType2[TokenType2["LessThan"] = 25] = "LessThan";
-  TokenType2[TokenType2["GreaterThan"] = 26] = "GreaterThan";
-  TokenType2[TokenType2["LessThanEquals"] = 27] = "LessThanEquals";
-  TokenType2[TokenType2["GreaterThanEquals"] = 28] = "GreaterThanEquals";
-  TokenType2[TokenType2["EqualsEquals"] = 29] = "EqualsEquals";
-  TokenType2[TokenType2["NotEquals"] = 30] = "NotEquals";
-  TokenType2[TokenType2["AmpersandAmpersand"] = 31] = "AmpersandAmpersand";
-  TokenType2[TokenType2["BarBar"] = 32] = "BarBar";
-  TokenType2[TokenType2["Bang"] = 33] = "Bang";
-  TokenType2[TokenType2["Arrow"] = 34] = "Arrow";
-  TokenType2[TokenType2["Import"] = 35] = "Import";
-  TokenType2[TokenType2["Export"] = 36] = "Export";
-  TokenType2[TokenType2["From"] = 37] = "From";
-  TokenType2[TokenType2["Async"] = 38] = "Async";
-  TokenType2[TokenType2["Await"] = 39] = "Await";
-  TokenType2[TokenType2["EOF"] = 40] = "EOF";
+  TokenType2[TokenType2["Break"] = 12] = "Break";
+  TokenType2[TokenType2["Continue"] = 13] = "Continue";
+  TokenType2[TokenType2["OpenParen"] = 14] = "OpenParen";
+  TokenType2[TokenType2["CloseParen"] = 15] = "CloseParen";
+  TokenType2[TokenType2["OpenBrace"] = 16] = "OpenBrace";
+  TokenType2[TokenType2["CloseBrace"] = 17] = "CloseBrace";
+  TokenType2[TokenType2["OpenBracket"] = 18] = "OpenBracket";
+  TokenType2[TokenType2["CloseBracket"] = 19] = "CloseBracket";
+  TokenType2[TokenType2["BinaryOperator"] = 20] = "BinaryOperator";
+  TokenType2[TokenType2["Equals"] = 21] = "Equals";
+  TokenType2[TokenType2["Semicolon"] = 22] = "Semicolon";
+  TokenType2[TokenType2["Colon"] = 23] = "Colon";
+  TokenType2[TokenType2["Comma"] = 24] = "Comma";
+  TokenType2[TokenType2["Dot"] = 25] = "Dot";
+  TokenType2[TokenType2["Quote"] = 26] = "Quote";
+  TokenType2[TokenType2["LessThan"] = 27] = "LessThan";
+  TokenType2[TokenType2["GreaterThan"] = 28] = "GreaterThan";
+  TokenType2[TokenType2["LessThanEquals"] = 29] = "LessThanEquals";
+  TokenType2[TokenType2["GreaterThanEquals"] = 30] = "GreaterThanEquals";
+  TokenType2[TokenType2["EqualsEquals"] = 31] = "EqualsEquals";
+  TokenType2[TokenType2["NotEquals"] = 32] = "NotEquals";
+  TokenType2[TokenType2["AmpersandAmpersand"] = 33] = "AmpersandAmpersand";
+  TokenType2[TokenType2["BarBar"] = 34] = "BarBar";
+  TokenType2[TokenType2["Bang"] = 35] = "Bang";
+  TokenType2[TokenType2["Arrow"] = 36] = "Arrow";
+  TokenType2[TokenType2["Import"] = 37] = "Import";
+  TokenType2[TokenType2["Export"] = 38] = "Export";
+  TokenType2[TokenType2["From"] = 39] = "From";
+  TokenType2[TokenType2["Async"] = 40] = "Async";
+  TokenType2[TokenType2["Await"] = 41] = "Await";
+  TokenType2[TokenType2["EOF"] = 42] = "EOF";
   return TokenType2;
 })(TokenType || {});
 var KEYWORDS = {
@@ -9153,12 +9155,14 @@ var KEYWORDS = {
   if: 8 /* If */,
   else: 9 /* Else */,
   while: 10 /* While */,
-  import: 35 /* Import */,
-  export: 36 /* Export */,
-  from: 37 /* From */,
-  async: 38 /* Async */,
-  await: 39 /* Await */,
-  return: 11 /* Return */
+  import: 37 /* Import */,
+  export: 38 /* Export */,
+  from: 39 /* From */,
+  async: 40 /* Async */,
+  await: 41 /* Await */,
+  return: 11 /* Return */,
+  break: 12 /* Break */,
+  continue: 13 /* Continue */
 };
 var Lexer = class {
   source;
@@ -9181,7 +9185,7 @@ var Lexer = class {
       this.scanToken();
     }
     this.tokens.push({
-      type: 40 /* EOF */,
+      type: 42 /* EOF */,
       value: "EndOfFile",
       line: this.line,
       column: this.current - this.lineStart + 1
@@ -9222,73 +9226,73 @@ var Lexer = class {
     switch (char) {
       // Single-character tokens
       case "(":
-        this.addToken(12 /* OpenParen */);
+        this.addToken(14 /* OpenParen */);
         break;
       case ")":
-        this.addToken(13 /* CloseParen */);
+        this.addToken(15 /* CloseParen */);
         break;
       case "{":
-        this.addToken(14 /* OpenBrace */);
+        this.addToken(16 /* OpenBrace */);
         break;
       case "}":
-        this.addToken(15 /* CloseBrace */);
+        this.addToken(17 /* CloseBrace */);
         break;
       case "[":
-        this.addToken(16 /* OpenBracket */);
+        this.addToken(18 /* OpenBracket */);
         break;
       case "]":
-        this.addToken(17 /* CloseBracket */);
+        this.addToken(19 /* CloseBracket */);
         break;
       case ";":
-        this.addToken(20 /* Semicolon */);
+        this.addToken(22 /* Semicolon */);
         break;
       case ":":
-        this.addToken(21 /* Colon */);
+        this.addToken(23 /* Colon */);
         break;
       case ",":
-        this.addToken(22 /* Comma */);
+        this.addToken(24 /* Comma */);
         break;
       case ".":
-        this.addToken(23 /* Dot */);
+        this.addToken(25 /* Dot */);
         break;
       case "=":
         if (this.match("=")) {
-          this.addToken(29 /* EqualsEquals */);
+          this.addToken(31 /* EqualsEquals */);
         } else {
-          this.addToken(19 /* Equals */);
+          this.addToken(21 /* Equals */);
         }
         break;
       case "<":
         if (this.match("=")) {
-          this.addToken(27 /* LessThanEquals */);
+          this.addToken(29 /* LessThanEquals */);
         } else {
-          this.addToken(25 /* LessThan */);
+          this.addToken(27 /* LessThan */);
         }
         break;
       case ">":
         if (this.match("=")) {
-          this.addToken(28 /* GreaterThanEquals */);
+          this.addToken(30 /* GreaterThanEquals */);
         } else {
-          this.addToken(26 /* GreaterThan */);
+          this.addToken(28 /* GreaterThan */);
         }
         break;
       case "!":
         if (this.match("=")) {
-          this.addToken(30 /* NotEquals */);
+          this.addToken(32 /* NotEquals */);
         } else {
-          this.addToken(33 /* Bang */);
+          this.addToken(35 /* Bang */);
         }
         break;
       case "&":
         if (this.match("&")) {
-          this.addToken(31 /* AmpersandAmpersand */);
+          this.addToken(33 /* AmpersandAmpersand */);
         } else {
           throw `Unexpected character '&' at ${this.filename}:${this.line}:${this.start - this.lineStart + 1}`;
         }
         break;
       case "|":
         if (this.match("|")) {
-          this.addToken(32 /* BarBar */);
+          this.addToken(34 /* BarBar */);
         } else {
           throw `Unexpected character '|' at ${this.filename}:${this.line}:${this.start - this.lineStart + 1}`;
         }
@@ -9300,11 +9304,11 @@ var Lexer = class {
         if (char === "/" && this.peek() === "/") {
           while (this.peek() !== "\n" && !this.isAtEnd()) this.advance();
         } else {
-          this.addToken(18 /* BinaryOperator */);
+          this.addToken(20 /* BinaryOperator */);
         }
         break;
       case "%":
-        this.addToken(18 /* BinaryOperator */);
+        this.addToken(20 /* BinaryOperator */);
         break;
       case "-":
         this.handleHyphen();
@@ -9346,13 +9350,13 @@ var Lexer = class {
    */
   handleHyphen() {
     const lastToken = this.tokens[this.tokens.length - 1];
-    const isNegativeSign = this.isDigit(this.peek()) && (!lastToken || lastToken.type !== 2 /* Identifier */ && lastToken.type !== 1 /* Number */ && lastToken.type !== 13 /* CloseParen */);
+    const isNegativeSign = this.isDigit(this.peek()) && (!lastToken || lastToken.type !== 2 /* Identifier */ && lastToken.type !== 1 /* Number */ && lastToken.type !== 15 /* CloseParen */);
     if (this.match(">")) {
-      this.addToken(34 /* Arrow */);
+      this.addToken(36 /* Arrow */);
     } else if (isNegativeSign) {
       this.handleNumber();
     } else {
-      this.addToken(18 /* BinaryOperator */);
+      this.addToken(20 /* BinaryOperator */);
     }
   }
   /**
@@ -9463,7 +9467,7 @@ function tokenise(sourceCode, filename) {
 var Parser = class {
   tokens = [];
   notEOF() {
-    return this.tokens[0]?.type !== 40 /* EOF */;
+    return this.tokens[0]?.type !== 42 /* EOF */;
   }
   at() {
     return this.tokens[0];
@@ -9499,47 +9503,57 @@ var Parser = class {
         return this.parse_var_declaration();
       case 7 /* Fn */: {
         const fn = this.parse_function_declaration(false);
-        if (this.at().type === 20 /* Semicolon */) this.eat();
+        if (this.at().type === 22 /* Semicolon */) this.eat();
         return fn;
       }
-      case 38 /* Async */: {
+      case 40 /* Async */: {
         if (this.peek().type === 7 /* Fn */) {
           const fn = this.parse_function_declaration(true);
-          if (this.at().type === 20 /* Semicolon */) this.eat();
+          if (this.at().type === 22 /* Semicolon */) this.eat();
           return fn;
         }
         const expr = this.parse_expr();
-        if (this.at().type === 20 /* Semicolon */) this.eat();
+        if (this.at().type === 22 /* Semicolon */) this.eat();
         return expr;
       }
       case 8 /* If */: {
         const ifStmt = this.parse_if_stmt();
-        if (this.at().type === 20 /* Semicolon */) this.eat();
+        if (this.at().type === 22 /* Semicolon */) this.eat();
         return ifStmt;
       }
       case 10 /* While */: {
         const whileStmt = this.parse_while_stmt();
-        if (this.at().type === 20 /* Semicolon */) this.eat();
+        if (this.at().type === 22 /* Semicolon */) this.eat();
         return whileStmt;
       }
-      case 35 /* Import */: {
+      case 37 /* Import */: {
         const importStmt = this.parse_import_declaration();
-        if (this.at().type === 20 /* Semicolon */) this.eat();
+        if (this.at().type === 22 /* Semicolon */) this.eat();
         return importStmt;
       }
-      case 36 /* Export */: {
+      case 38 /* Export */: {
         const exportStmt = this.parse_export_declaration();
-        if (this.at().type === 20 /* Semicolon */) this.eat();
+        if (this.at().type === 22 /* Semicolon */) this.eat();
         return exportStmt;
       }
       case 11 /* Return */: {
         const returnStmt = this.parse_return_stmt();
-        if (this.at().type === 20 /* Semicolon */) this.eat();
+        if (this.at().type === 22 /* Semicolon */) this.eat();
         return returnStmt;
+      }
+      case 12 /* Break */: {
+        const stmt = this.parse_break_stmt();
+        if (this.at().type === 22 /* Semicolon */) this.eat();
+        return stmt;
+      }
+      case 13 /* Continue */: {
+        const stmt = this.parse_continue_stmt();
+        if (this.at().type === 22 /* Semicolon */) this.eat();
+        return stmt;
       }
       default: {
         const expr = this.parse_expr();
-        if (this.at().type === 20 /* Semicolon */) {
+        if (this.at().type === 22 /* Semicolon */) {
           this.eat();
         }
         return expr;
@@ -9548,15 +9562,15 @@ var Parser = class {
   }
   parse_while_stmt() {
     this.eat();
-    this.expect(12 /* OpenParen */, "Expected '(' after while");
+    this.expect(14 /* OpenParen */, "Expected '(' after while");
     const condition = this.parse_expr();
-    this.expect(13 /* CloseParen */, "Expected ')' after while condition");
-    this.expect(14 /* OpenBrace */, "Expected '{' after while condition");
+    this.expect(15 /* CloseParen */, "Expected ')' after while condition");
+    this.expect(16 /* OpenBrace */, "Expected '{' after while condition");
     const body = [];
-    while (this.notEOF() && this.at().type !== 15 /* CloseBrace */) {
+    while (this.notEOF() && this.at().type !== 17 /* CloseBrace */) {
       body.push(this.parse_stmt());
     }
-    this.expect(15 /* CloseBrace */, "Expected '}' after while body");
+    this.expect(17 /* CloseBrace */, "Expected '}' after while body");
     return {
       kind: "WhileStmt",
       condition,
@@ -9568,7 +9582,7 @@ var Parser = class {
     const line = this.at().line;
     const column = this.at().column;
     let value;
-    if (this.at().type !== 20 /* Semicolon */ && this.at().type !== 15 /* CloseBrace */ && this.at().type !== 40 /* EOF */) {
+    if (this.at().type !== 22 /* Semicolon */ && this.at().type !== 17 /* CloseBrace */ && this.at().type !== 42 /* EOF */) {
       value = this.parse_expr();
     }
     return {
@@ -9578,29 +9592,41 @@ var Parser = class {
       column
     };
   }
+  parse_break_stmt() {
+    const line = this.at().line;
+    const column = this.at().column;
+    this.eat();
+    return { kind: "BreakStmt", line, column };
+  }
+  parse_continue_stmt() {
+    const line = this.at().line;
+    const column = this.at().column;
+    this.eat();
+    return { kind: "ContinueStmt", line, column };
+  }
   parse_if_stmt() {
     this.eat();
-    this.expect(12 /* OpenParen */, "Expected '(' after if");
+    this.expect(14 /* OpenParen */, "Expected '(' after if");
     const condition = this.parse_expr();
-    this.expect(13 /* CloseParen */, "Expected ')' after if condition");
-    this.expect(14 /* OpenBrace */, "Expected '{' after if condition");
+    this.expect(15 /* CloseParen */, "Expected ')' after if condition");
+    this.expect(16 /* OpenBrace */, "Expected '{' after if condition");
     const thenBranch = [];
-    while (this.notEOF() && this.at().type !== 15 /* CloseBrace */) {
+    while (this.notEOF() && this.at().type !== 17 /* CloseBrace */) {
       thenBranch.push(this.parse_stmt());
     }
-    this.expect(15 /* CloseBrace */, "Expected '}' after if body");
+    this.expect(17 /* CloseBrace */, "Expected '}' after if body");
     let elseBranch;
     if (this.at().type === 9 /* Else */) {
       this.eat();
       if (this.at().type === 8 /* If */) {
         elseBranch = [this.parse_if_stmt()];
       } else {
-        this.expect(14 /* OpenBrace */, "Expected '{' after else");
+        this.expect(16 /* OpenBrace */, "Expected '{' after else");
         elseBranch = [];
-        while (this.notEOF() && this.at().type !== 15 /* CloseBrace */) {
+        while (this.notEOF() && this.at().type !== 17 /* CloseBrace */) {
           elseBranch.push(this.parse_stmt());
         }
-        this.expect(15 /* CloseBrace */, "Expected '}' after else body");
+        this.expect(17 /* CloseBrace */, "Expected '}' after else body");
       }
     }
     return {
@@ -9630,14 +9656,14 @@ var Parser = class {
       params.push(arg.symbol);
     }
     this.expect(
-      14 /* OpenBrace */,
+      16 /* OpenBrace */,
       "Expected '{' following function parameters"
     );
     const body = [];
-    while (this.notEOF() && this.at().type !== 15 /* CloseBrace */) {
+    while (this.notEOF() && this.at().type !== 17 /* CloseBrace */) {
       body.push(this.parse_stmt());
     }
-    this.expect(15 /* CloseBrace */, "Expected '}' following function body");
+    this.expect(17 /* CloseBrace */, "Expected '}' following function body");
     const fn = {
       kind: "FunctionDeclaration",
       name,
@@ -9655,28 +9681,28 @@ var Parser = class {
     const isConst = this.eat().type === 6 /* Const */;
     let identifier = "";
     let identifiers;
-    if (this.at().type === 12 /* OpenParen */) {
+    if (this.at().type === 14 /* OpenParen */) {
       this.eat();
       identifiers = [];
-      while (this.notEOF() && this.at().type !== 13 /* CloseParen */) {
+      while (this.notEOF() && this.at().type !== 15 /* CloseParen */) {
         identifiers.push(
           this.expect(
             2 /* Identifier */,
             "Expected identifier in destructuring"
           ).value
         );
-        if (this.at().type === 22 /* Comma */) {
+        if (this.at().type === 24 /* Comma */) {
           this.eat();
         }
       }
-      this.expect(13 /* CloseParen */, "Expected ')' after destructuring");
+      this.expect(15 /* CloseParen */, "Expected ')' after destructuring");
     } else {
       identifier = this.expect(
         2 /* Identifier */,
         "Expected identifier name following let | const keywords"
       ).value;
     }
-    if (this.at().type === 20 /* Semicolon */) {
+    if (this.at().type === 22 /* Semicolon */) {
       this.eat();
       if (isConst) {
         throw "Must assign value to constant expression. No value provided";
@@ -9690,9 +9716,9 @@ var Parser = class {
         column
       };
     }
-    this.expect(19 /* Equals */, "Expected '=' after variable declaration");
+    this.expect(21 /* Equals */, "Expected '=' after variable declaration");
     const value = this.parse_expr();
-    if (this.at().type === 20 /* Semicolon */) {
+    if (this.at().type === 22 /* Semicolon */) {
       this.eat();
     }
     return {
@@ -9707,23 +9733,23 @@ var Parser = class {
   }
   parse_import_declaration() {
     this.eat();
-    this.expect(14 /* OpenBrace */, "Expected '{' after import");
+    this.expect(16 /* OpenBrace */, "Expected '{' after import");
     const specifiers = [];
-    while (this.notEOF() && this.at().type !== 15 /* CloseBrace */) {
+    while (this.notEOF() && this.at().type !== 17 /* CloseBrace */) {
       specifiers.push(
         this.expect(2 /* Identifier */, "Expected identifier in import list").value
       );
-      if (this.at().type === 22 /* Comma */) {
+      if (this.at().type === 24 /* Comma */) {
         this.eat();
       }
     }
-    this.expect(15 /* CloseBrace */, "Expected '}' after import list");
-    this.expect(37 /* From */, "Expected 'from' after import specifiers");
+    this.expect(17 /* CloseBrace */, "Expected '}' after import list");
+    this.expect(39 /* From */, "Expected 'from' after import specifiers");
     const source = this.expect(
       3 /* String */,
       "Expected string literal for import source"
     ).value;
-    if (this.at().type === 20 /* Semicolon */) {
+    if (this.at().type === 22 /* Semicolon */) {
       this.eat();
     }
     return {
@@ -9751,22 +9777,22 @@ var Parser = class {
     return this.parse_assignment_expr();
   }
   parse_assignment_expr() {
-    if (this.at().type === 12 /* OpenParen */ && this.isDestructuring()) {
+    if (this.at().type === 14 /* OpenParen */ && this.isDestructuring()) {
       const line = this.at().line;
       const column = this.at().column;
       this.eat();
       const identifiers = [];
-      while (this.notEOF() && this.at().type !== 13 /* CloseParen */) {
+      while (this.notEOF() && this.at().type !== 15 /* CloseParen */) {
         if (this.at().type === 2 /* Identifier */) {
           identifiers.push(this.eat().value);
         } else {
           throw `Expected identifier in destructuring assignment, got ${this.at().type}`;
         }
-        if (this.at().type === 22 /* Comma */) this.eat();
+        if (this.at().type === 24 /* Comma */) this.eat();
       }
-      this.expect(13 /* CloseParen */, "Expected ')' after destructuring");
+      this.expect(15 /* CloseParen */, "Expected ')' after destructuring");
       this.expect(
-        19 /* Equals */,
+        21 /* Equals */,
         "Expected '=' after destructuring assignment"
       );
       const value = this.parse_assignment_expr();
@@ -9780,12 +9806,12 @@ var Parser = class {
       };
     }
     const left = this.parse_logical_or_expr();
-    if (this.at().type === 19 /* Equals */) {
+    if (this.at().type === 21 /* Equals */) {
       const line = this.at().line;
       const column = this.at().column;
       this.eat();
       const value = this.parse_assignment_expr();
-      if (this.at().type === 20 /* Semicolon */) {
+      if (this.at().type === 22 /* Semicolon */) {
         this.eat();
       }
       return {
@@ -9802,19 +9828,19 @@ var Parser = class {
     let parenCount = 0;
     for (let i = 0; i < this.tokens.length; i++) {
       const type = this.tokens[i].type;
-      if (type === 12 /* OpenParen */) parenCount++;
-      else if (type === 13 /* CloseParen */) {
+      if (type === 14 /* OpenParen */) parenCount++;
+      else if (type === 15 /* CloseParen */) {
         parenCount--;
         if (parenCount === 0) {
-          return this.tokens[i + 1]?.type === 19 /* Equals */;
+          return this.tokens[i + 1]?.type === 21 /* Equals */;
         }
-      } else if (type === 40 /* EOF */) return false;
+      } else if (type === 42 /* EOF */) return false;
     }
     return false;
   }
   parse_logical_or_expr() {
     let left = this.parse_logical_and_expr();
-    while (this.at().type === 32 /* BarBar */) {
+    while (this.at().type === 34 /* BarBar */) {
       const operator = this.eat().value;
       const right = this.parse_logical_and_expr();
       left = {
@@ -9830,7 +9856,7 @@ var Parser = class {
   }
   parse_logical_and_expr() {
     let left = this.parse_object_expr();
-    while (this.at().type === 31 /* AmpersandAmpersand */) {
+    while (this.at().type === 33 /* AmpersandAmpersand */) {
       const operator = this.eat().value;
       const right = this.parse_object_expr();
       left = {
@@ -9845,12 +9871,12 @@ var Parser = class {
     return left;
   }
   parse_object_expr() {
-    if (this.at().type !== 14 /* OpenBrace */) {
+    if (this.at().type !== 16 /* OpenBrace */) {
       return this.parse_comparison_expr();
     }
     this.eat();
     const properties = new Array();
-    while (this.notEOF() && this.at().type != 15 /* CloseBrace */) {
+    while (this.notEOF() && this.at().type != 17 /* CloseBrace */) {
       const token = this.eat();
       let key;
       if (token.type === 2 /* Identifier */ || token.type === 3 /* String */) {
@@ -9858,7 +9884,7 @@ var Parser = class {
       } else {
         throw `Object literal key expected, got ${TokenType[token.type]} at ${this.filename}:${token.line}:${token.column}`;
       }
-      if (this.at().type === 22 /* Comma */) {
+      if (this.at().type === 24 /* Comma */) {
         this.eat();
         properties.push({
           kind: "Property",
@@ -9867,7 +9893,7 @@ var Parser = class {
           column: this.at().column
         });
         continue;
-      } else if (this.at().type === 15 /* CloseBrace */) {
+      } else if (this.at().type === 17 /* CloseBrace */) {
         properties.push({
           kind: "Property",
           key,
@@ -9877,21 +9903,21 @@ var Parser = class {
         continue;
       }
       this.expect(
-        21 /* Colon */,
+        23 /* Colon */,
         "Missing colon following identifier in Object Literal"
       );
       const value = this.parse_expr();
       properties.push({ kind: "Property", key, value });
-      if (this.at().type === 22 /* Comma */) {
+      if (this.at().type === 24 /* Comma */) {
         this.eat();
       }
     }
-    this.expect(15 /* CloseBrace */, "Expected '}' closing object literal");
+    this.expect(17 /* CloseBrace */, "Expected '}' closing object literal");
     return { kind: "ObjectLiteral", properties };
   }
   parse_comparison_expr() {
     let left = this.parse_additive_expr();
-    while (this.at().type === 25 /* LessThan */ || this.at().type === 26 /* GreaterThan */ || this.at().type === 27 /* LessThanEquals */ || this.at().type === 28 /* GreaterThanEquals */ || this.at().type === 29 /* EqualsEquals */ || this.at().type === 30 /* NotEquals */) {
+    while (this.at().type === 27 /* LessThan */ || this.at().type === 28 /* GreaterThan */ || this.at().type === 29 /* LessThanEquals */ || this.at().type === 30 /* GreaterThanEquals */ || this.at().type === 31 /* EqualsEquals */ || this.at().type === 32 /* NotEquals */) {
       const operator = this.eat().value;
       const right = this.parse_additive_expr();
       left = {
@@ -9938,11 +9964,11 @@ var Parser = class {
     return left;
   }
   parse_unary_expr() {
-    if (this.at().type === 33 /* Bang */ || this.at().type === 39 /* Await */ || this.at().type === 18 /* BinaryOperator */ && this.at().value === "-") {
+    if (this.at().type === 35 /* Bang */ || this.at().type === 41 /* Await */ || this.at().type === 20 /* BinaryOperator */ && this.at().value === "-") {
       const token = this.eat();
       const operator = token.value;
       const argument = this.parse_unary_expr();
-      if (token.type === 39 /* Await */) {
+      if (token.type === 41 /* Await */) {
         return {
           kind: "AwaitExpr",
           argument,
@@ -9962,7 +9988,7 @@ var Parser = class {
   }
   parse_call_member_expr() {
     const member = this.parse_member_expr();
-    if (this.at().type === 12 /* OpenParen */) {
+    if (this.at().type === 14 /* OpenParen */) {
       return this.parse_call_expr(member);
     }
     return member;
@@ -9975,31 +10001,31 @@ var Parser = class {
       line: this.at().line,
       column: this.at().column
     };
-    if (this.at().type === 12 /* OpenParen */) {
+    if (this.at().type === 14 /* OpenParen */) {
       call_expr = this.parse_call_expr(call_expr);
     }
     return call_expr;
   }
   parse_args() {
-    this.expect(12 /* OpenParen */, "Expected '(' after function call");
-    const args = this.at().type === 13 /* CloseParen */ ? [] : this.parse_arguments_list();
-    this.expect(13 /* CloseParen */, "Expected ')' after function call");
+    this.expect(14 /* OpenParen */, "Expected '(' after function call");
+    const args = this.at().type === 15 /* CloseParen */ ? [] : this.parse_arguments_list();
+    this.expect(15 /* CloseParen */, "Expected ')' after function call");
     return args;
   }
   parse_arguments_list() {
     const args = [this.parse_assignment_expr()];
-    while (this.at().type === 22 /* Comma */ && this.eat()) {
+    while (this.at().type === 24 /* Comma */ && this.eat()) {
       args.push(this.parse_assignment_expr());
     }
     return args;
   }
   parse_member_expr() {
     let object = this.parse_primary_expr();
-    while (this.at().type === 23 /* Dot */ || this.at().type === 16 /* OpenBracket */) {
+    while (this.at().type === 25 /* Dot */ || this.at().type === 18 /* OpenBracket */) {
       const operator = this.eat();
       let property;
       let computed;
-      if (operator.type === 23 /* Dot */) {
+      if (operator.type === 25 /* Dot */) {
         computed = false;
         property = this.parse_primary_expr();
         if (property.kind !== "Identifier") {
@@ -10009,7 +10035,7 @@ var Parser = class {
         computed = true;
         property = this.parse_expr();
         this.expect(
-          17 /* CloseBracket */,
+          19 /* CloseBracket */,
           "Expected ']' after computed property"
         );
       }
@@ -10026,39 +10052,39 @@ var Parser = class {
   }
   isLambda() {
     let offset = 0;
-    if (this.at().type === 38 /* Async */) {
+    if (this.at().type === 40 /* Async */) {
       offset = 1;
     }
-    if (this.tokens[offset]?.type !== 12 /* OpenParen */) return false;
+    if (this.tokens[offset]?.type !== 14 /* OpenParen */) return false;
     let parenCount = 0;
     for (let i = offset; i < this.tokens.length; i++) {
       const type = this.tokens[i].type;
-      if (type === 12 /* OpenParen */) parenCount++;
-      else if (type === 13 /* CloseParen */) {
+      if (type === 14 /* OpenParen */) parenCount++;
+      else if (type === 15 /* CloseParen */) {
         parenCount--;
         if (parenCount === 0) {
-          return this.tokens[i + 1]?.type === 34 /* Arrow */;
+          return this.tokens[i + 1]?.type === 36 /* Arrow */;
         }
-      } else if (type === 40 /* EOF */) return false;
+      } else if (type === 42 /* EOF */) return false;
     }
     return false;
   }
   parse_lambda_expr() {
     let isAsync = false;
-    if (this.at().type === 38 /* Async */) {
+    if (this.at().type === 40 /* Async */) {
       this.eat();
       isAsync = true;
     }
-    this.expect(12 /* OpenParen */, "Expected '(' at start of lambda");
+    this.expect(14 /* OpenParen */, "Expected '(' at start of lambda");
     const params = [];
-    if (this.at().type !== 13 /* CloseParen */) {
+    if (this.at().type !== 15 /* CloseParen */) {
       params.push(
         this.expect(
           2 /* Identifier */,
           "Expected identifier in lambda params"
         ).value
       );
-      while (this.at().type === 22 /* Comma */) {
+      while (this.at().type === 24 /* Comma */) {
         this.eat();
         params.push(
           this.expect(
@@ -10068,15 +10094,15 @@ var Parser = class {
         );
       }
     }
-    this.expect(13 /* CloseParen */, "Expected ')' after lambda params");
-    this.expect(34 /* Arrow */, "Expected '->' after lambda params");
+    this.expect(15 /* CloseParen */, "Expected ')' after lambda params");
+    this.expect(36 /* Arrow */, "Expected '->' after lambda params");
     const body = [];
-    if (this.at().type === 14 /* OpenBrace */) {
+    if (this.at().type === 16 /* OpenBrace */) {
       this.eat();
-      while (this.notEOF() && this.at().type !== 15 /* CloseBrace */) {
+      while (this.notEOF() && this.at().type !== 17 /* CloseBrace */) {
         body.push(this.parse_stmt());
       }
-      this.expect(15 /* CloseBrace */, "Expected '}' after lambda body");
+      this.expect(17 /* CloseBrace */, "Expected '}' after lambda body");
     } else {
       body.push(this.parse_expr());
     }
@@ -10120,22 +10146,22 @@ var Parser = class {
           column: this.at().column,
           value: this.eat().value
         };
-      case 12 /* OpenParen */:
-      case 38 /* Async */:
+      case 14 /* OpenParen */:
+      case 40 /* Async */:
         if (this.isLambda()) {
           return this.parse_lambda_expr();
         }
-        if (tk === 38 /* Async */) {
+        if (tk === 40 /* Async */) {
           throw "Unexpected 'async' keyword. Expected async lambda or async function.";
         }
         this.eat();
         const value = this.parse_expr();
         this.expect(
-          13 /* CloseParen */,
+          15 /* CloseParen */,
           "Unexpected token found inside parentheses expression. Expected ')' closing parenthesis."
         );
         return value;
-      case 16 /* OpenBracket */:
+      case 18 /* OpenBracket */:
         return this.parse_array_literal();
       default:
         throw `Unexpected token found during parsing at ${this.filename}:${this.at().line}:${this.at().column}: ${JSON.stringify(this.at())}`;
@@ -10144,13 +10170,13 @@ var Parser = class {
   parse_array_literal() {
     this.eat();
     const elements = new Array();
-    while (this.notEOF() && this.at().type !== 17 /* CloseBracket */) {
+    while (this.notEOF() && this.at().type !== 19 /* CloseBracket */) {
       elements.push(this.parse_expr());
-      if (this.at().type === 22 /* Comma */) {
+      if (this.at().type === 24 /* Comma */) {
         this.eat();
       }
     }
-    this.expect(17 /* CloseBracket */, "Expected ']' after array literal");
+    this.expect(19 /* CloseBracket */, "Expected ']' after array literal");
     return {
       kind: "ArrayLiteral",
       elements
@@ -10309,6 +10335,7 @@ var NETWORK_MEMBERS = [
   { name: "delete", kind: import_node.CompletionItemKind.Method, detail: "Network.delete(url: any, options: any = {})", insertText: "delete(${1:url}, ${2:options})" },
   { name: "patch", kind: import_node.CompletionItemKind.Method, detail: "Network.patch(url: any, body: any, options: any = {})", insertText: "patch(${1:url}, ${2:body}, ${3:options})" },
   { name: "head", kind: import_node.CompletionItemKind.Method, detail: "Network.head(url: any, options: any = {})", insertText: "head(${1:url}, ${2:options})" },
+  { name: "stream", kind: import_node.CompletionItemKind.Method, detail: "Network.stream(url: any, options: any = {}, onChunk: any)", insertText: "stream(${1:url}, ${2:options}, ${3:onChunk})" },
   { name: "parseOptions", kind: import_node.CompletionItemKind.Method, detail: "Network.parseOptions(options: any)", insertText: "parseOptions(${1:options})" },
   { name: "parseResponse", kind: import_node.CompletionItemKind.Method, detail: "Network.parseResponse(response: Response)", insertText: "parseResponse(${1:response})" }
 ];
@@ -10452,7 +10479,11 @@ var GLOBAL_SYMBOLS = [
   { name: "shift", kind: import_node.CompletionItemKind.Function, detail: "fn shift(...)", documentation: "Built-in global function shift", insertText: "shift($1)" },
   { name: "unshift", kind: import_node.CompletionItemKind.Function, detail: "fn unshift(...)", documentation: "Built-in global function unshift", insertText: "unshift($1)" },
   { name: "str", kind: import_node.CompletionItemKind.Function, detail: "fn str(...)", documentation: "Built-in global function str", insertText: "str($1)" },
+  { name: "num", kind: import_node.CompletionItemKind.Function, detail: "fn num(...)", documentation: "Built-in global function num", insertText: "num($1)" },
+  { name: "bool", kind: import_node.CompletionItemKind.Function, detail: "fn bool(...)", documentation: "Built-in global function bool", insertText: "bool($1)" },
   { name: "typeof", kind: import_node.CompletionItemKind.Function, detail: "fn typeof(...)", documentation: "Built-in global function typeof", insertText: "typeof($1)" },
+  { name: "btoa", kind: import_node.CompletionItemKind.Function, detail: "fn btoa(...)", documentation: "Built-in global function btoa", insertText: "btoa($1)" },
+  { name: "atob", kind: import_node.CompletionItemKind.Function, detail: "fn atob(...)", documentation: "Built-in global function atob", insertText: "atob($1)" },
   { name: "concat", kind: import_node.CompletionItemKind.Function, detail: "fn concat(...)", documentation: "Built-in global function concat", insertText: "concat($1)" },
   { name: "env", kind: import_node.CompletionItemKind.Function, detail: "fn env(...)", documentation: "Built-in global function env", insertText: "env($1)" },
   { name: "Audio", kind: import_node.CompletionItemKind.Class, detail: "Audio Library", members: AUDIO_MEMBERS },
